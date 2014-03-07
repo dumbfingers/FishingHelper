@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FishingHelper.iml" filepath="$PROJECT_DIR$/FishingHelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module_fh/module_fh.iml" filepath="$PROJECT_DIR$/module_fh/module_fh.iml" />
+    </modules>
+  </component>
+</project>
+
