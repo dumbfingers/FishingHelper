@@ -5,12 +5,40 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
+import it.gmariotti.cardslib.library.internal.CardHeader;
+import it.gmariotti.cardslib.library.view.CardGridView;
+
+/**
+ * @author yaxi
+ */
 public class MainActivity extends ActionBarActivity {
+
+    ArrayList<Card> cardList = new ArrayList<Card>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Card card = new Card(getApplicationContext());
+        CardHeader header = new CardHeader(getApplicationContext());
+
+        header.setTitle("Title");
+//        card.setBackgroundResourceId();
+
+        card.addCardHeader(header);
+        cardList.add(card);
+
+        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(this,cardList);
+
+        CardGridView gridView = (CardGridView) this.findViewById(R.id.myGrid);
+        if (gridView!=null){
+            gridView.setAdapter(mCardArrayAdapter);
+        }
     }
 
 
