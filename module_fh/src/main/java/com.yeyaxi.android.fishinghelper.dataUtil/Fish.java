@@ -7,6 +7,7 @@ package com.yeyaxi.android.fishinghelper.dataUtil;
  */
 public class Fish {
 
+    private int id;
     private int timeStamp;
     private float latitude;
     private float longitude;
@@ -17,8 +18,14 @@ public class Fish {
     private String imgPath;
     private String note;
 
+    /**
+     * Empty Contructor
+     */
+    public Fish() {
 
-    public Fish(int timeStamp, float latitude, float longitude, String angler, float fishLength,
+    }
+
+    public Fish(int id, int timeStamp, float latitude, float longitude, String angler, float fishLength,
                 float fishWeight, String bait, String imgPath, String note) {
         this.timeStamp = timeStamp;
         this.latitude = latitude;
@@ -29,6 +36,14 @@ public class Fish {
         this.bait = bait;
         this.imgPath = imgPath;
         this.note = note;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getTimeStamp() {
