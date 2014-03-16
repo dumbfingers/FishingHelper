@@ -11,11 +11,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Record"
-        android:id="@+id/button"
+        android:text="Add New Record"
+        android:id="@+id/button_new_record"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+        style="@style/Widget.Sherlock.Light.ActionButton" />
 
     <it.gmariotti.cardslib.library.view.CardGridView
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:stretchMode="columnWidth"
         android:gravity="center"
         android:id="@+id/myGrid"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/button_new_record"
         android:layout_marginTop="@dimen/activity_vertical_margin" />
 
 </RelativeLayout>

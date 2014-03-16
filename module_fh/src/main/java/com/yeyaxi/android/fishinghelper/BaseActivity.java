@@ -16,10 +16,10 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.actionbarsherlock.app.ActionBar.LayoutParams;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 
-public class BaseActivity extends SherlockActivity {
+public class BaseActivity extends SherlockFragmentActivity {
 
 
     @Override

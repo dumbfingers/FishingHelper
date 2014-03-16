@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/text_timestamp"
+            android:hint="Timestamp"
+            android:drawableLeft="@drawable/ic_action_time"
+            android:inputType="datetime"
+            android:layout_below="@+id/img_fish"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Fish Name"
+            android:ems="10"
+            android:id="@+id/text_fishname"
+            android:layout_alignParentStart="true"
+            android:minHeight="48dp"
+            android:layout_below="@+id/text_timestamp"
+            android:layout_alignParentLeft="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:drawableLeft="@drawable/ic_action_map"
+            android:id="@+id/text_location"
+            android:hint="Latitude/Longitude"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text_fishname"
+            android:layout_alignParentLeft="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_fishweight"
+            android:minHeight="48dp"
+            android:hint="Fish Weight"
+            android:drawableLeft="@drawable/ic_scale"
+            android:layout_below="@+id/text_angler"
+            android:layout_alignParentLeft="true"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_angler"
+            android:minHeight="48dp"
+            android:hint="Angler"
+            android:layout_below="@+id/text_location"
+            android:layout_alignParentLeft="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_fishlength"
+            android:minHeight="48dp"
+            android:drawableLeft="@drawable/ic_ruler"
+            android:hint="Fish Length"
+            android:layout_below="@+id/text_fishweight"
+            android:layout_alignParentLeft="true"
+            android:inputType="numberDecimal" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_bait"
+            android:minHeight="48dp"
+            android:hint="Bait"
+            android:layout_below="@+id/text_fishlength"
+            android:layout_alignParentLeft="true" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_fish"
+            android:src="@drawable/ic_camera"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:maxHeight="184dp"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:minHeight="48dp"
+            android:id="@+id/text_note"
+            android:hint="Additional Notes"
+            android:drawableLeft="@drawable/ic_action_edit"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text_bait"
+            android:layout_alignParentLeft="true" />
+
+
+    </RelativeLayout>
+</ScrollView>

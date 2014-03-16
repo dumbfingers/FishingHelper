@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.Button;
 
 import com.actionbarsherlock.view.MenuItem;
 
@@ -25,6 +26,9 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     private View mSwitchView;
     private View mainView;
+
+    private Button addRecordButton;
+
     private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
@@ -48,9 +52,12 @@ public class MainActivity extends BaseActivity {
             gridView.setAdapter(mCardArrayAdapter);
         }
 
-
+        addRecordButton = (Button) findViewById(R.id.button_new_record);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // we will swap this view on the fly later
+        mainView = (View) findViewById(R.id.content_frame);
+
         mSwitchView = (View) findViewById(R.id.left_drawer);
 
         // ActionBarDrawerToggle ties together the the proper interactions
@@ -73,6 +80,16 @@ public class MainActivity extends BaseActivity {
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        addRecordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // swap the listview/card view with the new record fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
+                        new AddRecordFragment()).commit();
+
+            }
+        });
     }
 
 
