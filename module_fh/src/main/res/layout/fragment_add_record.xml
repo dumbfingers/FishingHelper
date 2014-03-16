@@ -99,6 +99,7 @@
             android:layout_alignParentStart="true"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
+            android:clickable="true"
             android:maxHeight="184dp"
             android:layout_centerHorizontal="true" />
 

@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:gravity="right">
@@ -15,5 +15,18 @@
         android:id="@+id/textView_counter"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="visible"
+        android:layout_gravity="center_vertical"
         android:textColor="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/button_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:textStyle="bold"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        android:textColor="@android:color/darker_gray"
+        style="@style/Widget.Sherlock.ActionButton"/>
 </LinearLayout>

@@ -5,29 +5,20 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.widget.Button;
 
 import com.actionbarsherlock.view.MenuItem;
-
-import java.util.ArrayList;
-
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.view.CardGridView;
 
 /**
  * @author yaxi
  */
 public class MainActivity extends BaseActivity {
 
-    ArrayList<Card> cardList = new ArrayList<Card>();
 
     private DrawerLayout mDrawerLayout;
     private View mSwitchView;
-    private View mainView;
+//    private View mainView;
 
-    private Button addRecordButton;
+//    private Button addRecordButton;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -36,27 +27,16 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_main);
 
-        Card card = new Card(getApplicationContext());
-        CardHeader header = new CardHeader(getApplicationContext());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, new MainFragment(), "MainFragment")
+                .commit();
 
-        header.setTitle("Title");
-//        card.setBackgroundResourceId();
-
-        card.addCardHeader(header);
-        cardList.add(card);
-
-        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(this,cardList);
-
-        CardGridView gridView = (CardGridView) this.findViewById(R.id.myGrid);
-        if (gridView!=null){
-            gridView.setAdapter(mCardArrayAdapter);
-        }
-
-        addRecordButton = (Button) findViewById(R.id.button_new_record);
+//        addRecordButton = (Button) findViewById(R.id.button_new_record);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         // we will swap this view on the fly later
-        mainView = (View) findViewById(R.id.content_frame);
+//        mainView = (View) findViewById(R.id.content_frame);
 
         mSwitchView = (View) findViewById(R.id.left_drawer);
 
@@ -81,15 +61,7 @@ public class MainActivity extends BaseActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        addRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // swap the listview/card view with the new record fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
-                        new AddRecordFragment()).commit();
 
-            }
-        });
     }
 
 
@@ -121,5 +93,22 @@ public class MainActivity extends BaseActivity {
         // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        //TODO prompt user to confirm "Save/Dicard", label the unfinished records
+
+        if (getSupportFragmentManager().findFragmentByTag("AddRecordFragment") != null
+                && getSupportFragmentManager().findFragmentByTag("MainFragment") != null)  {
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, new MainFragment(), "MainFragment")
+                    .commit();
+
+        }
+
     }
 }
