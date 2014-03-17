@@ -1,6 +1,8 @@
 package com.yeyaxi.android.fishinghelper;
 
 import android.content.Intent;
+import android.content.IntentSender;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.location.LocationClient;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -22,7 +27,9 @@ import java.util.Date;
 /**
  * Created by yaxi on 16/03/2014.
  */
-public class AddRecordFragment extends SherlockFragment{
+public class AddRecordFragment extends SherlockFragment implements
+        GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener {
 
     private static final String TAG = AddRecordFragment.class.getSimpleName();
 
@@ -42,6 +49,9 @@ public class AddRecordFragment extends SherlockFragment{
     private static final int MEDIA_TYPE_IMAGE = 1;
 
     private Uri fileUri;
+
+    private LocationClient locationClient;
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +76,11 @@ public class AddRecordFragment extends SherlockFragment{
         doneButton.setVisibility(View.VISIBLE);
 
         doneButton.setOnClickListener(onClickListener);
+        fishImage.setOnClickListener(onClickListener);
+
+        // invoke the location manager
+        locationClient = new LocationClient(getSherlockActivity(), this, this);
+
 
         return view;
     }
@@ -90,6 +105,83 @@ public class AddRecordFragment extends SherlockFragment{
         }
     };
 
+    /**
+     * Called by Location Services when the request to connect the
+     * client finishes successfully. At this point, you can
+     * request the current location or start periodic updates
+     * @param dataBundle
+     */
+    @Override
+    public void onConnected(Bundle dataBundle) {
+        Log.d(TAG, "Google Play Services Connected");
+    }
+
+    /**
+     * Called by Location Services if the connection to the
+     * location client drops because of an error.
+     */
+    @Override
+    public void onDisconnected() {
+        // Display the connection status
+        Log.d(TAG, "Google Play Services Disconnected.");
+    }
+
+    /**
+     * Called by Location Services if the attempt to
+     * Location Services fails.
+     */
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        /*
+         * Google Play services can resolve some errors it detects.
+         * If the error has a resolution, try sending an Intent to
+         * start a Google Play services activity that can resolve
+         * error.
+         */
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(getSherlockActivity(),
+                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                /*
+                 * Thrown if Google Play services canceled the original
+                 * PendingIntent
+                 */
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+            /*
+             * If no resolution is available, display a dialog to the
+             * user with the error.
+             */
+//            showErrorDialog(connectionResult.getErrorCode());
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // connect the location client
+        locationClient.connect();
+
+        // set the location text when located
+        Location currentLocation = locationClient.getLastLocation();
+        locationText.setText(String.valueOf(currentLocation.getLatitude()) + ","
+                + String.valueOf(currentLocation.getLongitude()));
+    }
+
+    @Override
+    public void onStop() {
+        // disconnect the location client
+        locationClient.disconnect();
+
+        super.onStop();
+
+    }
     /**
      * will switch to main record list
      */

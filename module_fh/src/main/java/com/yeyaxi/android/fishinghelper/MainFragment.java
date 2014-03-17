@@ -9,19 +9,12 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import java.util.ArrayList;
-
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.view.CardGridView;
-
 /**
  * Created by yaxi on 16/03/2014.
  */
 public class MainFragment extends SherlockFragment {
 
-    ArrayList<Card> cardList = new ArrayList<Card>();
+//    ArrayList<Card> cardList = new ArrayList<Card>();
     private Button addRecordButton;
     private int count = 0;
     private TextView countText;
@@ -42,21 +35,21 @@ public class MainFragment extends SherlockFragment {
         View absView = getSherlockActivity().getSupportActionBar().getCustomView();
         countText = (TextView) absView.findViewById(R.id.textView_counter);
 
-        Card card = new Card(getSherlockActivity());
-        CardHeader header = new CardHeader(getSherlockActivity());
+//        Card card = new Card(getSherlockActivity());
+//        CardHeader header = new CardHeader(getSherlockActivity());
 
-        header.setTitle("Title");
+//        header.setTitle("Title");
 //        card.setBackgroundResourceId();
 
-        card.addCardHeader(header);
-        cardList.add(card);
+//        card.addCardHeader(header);
+//        cardList.add(card);
 
-        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getSherlockActivity(),cardList);
-
-        CardGridView gridView = (CardGridView) view.findViewById(R.id.myGrid);
-        if (gridView!=null){
-            gridView.setAdapter(mCardArrayAdapter);
-        }
+//        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getSherlockActivity(),cardList);
+//
+//        CardGridView gridView = (CardGridView) view.findViewById(android.R.id.myGrid);
+//        if (gridView!=null){
+//            gridView.setAdapter(mCardArrayAdapter);
+//        }
 
         addRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override

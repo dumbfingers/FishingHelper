@@ -17,17 +17,17 @@
         android:layout_centerHorizontal="true"
         style="@style/Widget.Sherlock.Light.ActionButton" />
 
-    <it.gmariotti.cardslib.library.view.CardGridView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="190dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="3dp"
-        android:horizontalSpacing="2dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:id="@+id/myGrid"
-        android:layout_below="@+id/button_new_record"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
+    <!--<it.gmariotti.cardslib.library.view.CardGridView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:columnWidth="190dp"-->
+        <!--android:numColumns="auto_fit"-->
+        <!--android:verticalSpacing="3dp"-->
+        <!--android:horizontalSpacing="2dp"-->
+        <!--android:stretchMode="columnWidth"-->
+        <!--android:gravity="center"-->
+        <!--android:id="@+id/myGrid"-->
+        <!--android:layout_below="@+id/button_new_record"-->
+        <!--android:layout_marginTop="@dimen/activity_vertical_margin" />-->
 
 </RelativeLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
@@ -16,27 +16,86 @@
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:drawableLeft="@drawable/ic_action_new"
+            android:text="Units"
             android:id="@+id/textView"
+            style="?android:attr/listSeparatorTextViewStyle"
             android:gravity="center_vertical" />
 
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView2" />
+            android:layout_weight="1"
+            android:paddingStart="@dimen/preference_item_padding_side"
+            android:paddingEnd="@dimen/preference_item_padding_inner"
+            android:paddingTop="6dip"
+            android:paddingBottom="6dip">
 
-        <TextView
+            <TextView android:id="@+id/title_imp_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Imperial"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorSecondary" />
+
+            <TextView android:id="@+id/summary_imp_units"
+                android:layout_width="wrap_content"
+                android:text="Use inch, foot, mile and pound"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_imp_units"
+                android:layout_alignStart="@+id/title_imp_units"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:maxLines="10" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:checked="false"
+                android:id="@+id/checkbox_imp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView3" />
+            android:layout_weight="1"
+            android:paddingStart="@dimen/preference_item_padding_side"
+            android:paddingEnd="@dimen/preference_item_padding_inner"
+            android:paddingTop="6dip"
+            android:paddingBottom="6dip">
+
+            <TextView android:id="@+id/title_met_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Metrics"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorSecondary" />
+
+            <TextView android:id="@+id/summary_met_units"
+                android:layout_width="wrap_content"
+                android:text="Use centimetre, metre, kilometre\nand kilogram"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_met_units"
+                android:layout_alignStart="@+id/title_met_units"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:maxLines="10" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:checked="false"
+                android:id="@+id/checkbox_met" />
+
+        </RelativeLayout>
 
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>
