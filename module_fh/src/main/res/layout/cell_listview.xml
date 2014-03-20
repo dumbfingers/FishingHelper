@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="#eeeeea"
+    android:layout_marginLeft="@dimen/cell_horizontal_margin"
+    android:layout_marginRight="@dimen/cell_horizontal_margin"
+    android:layout_marginTop="@dimen/cell_vertical_margin"
+    android:layout_marginBottom="@dimen/cell_vertical_margin"
+    android:padding="8dp">
+
+    <ImageView
+        android:layout_width="@dimen/cell_img_dimen"
+        android:layout_height="@dimen/cell_img_dimen"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/iblueskate"
+        android:adjustViewBounds="true"
+        android:minHeight="@dimen/cell_img_dimen"
+        android:minWidth="@dimen/cell_img_dimen"
+        android:maxHeight="@dimen/cell_img_dimen"
+        android:maxWidth="@dimen/cell_img_dimen"
+        android:cropToPadding="false"
+        android:scaleType="centerInside" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Fish Name"
+            android:singleLine="true"
+            android:id="@+id/textView_cell_title"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/textView_cell_descr"
+            android:textColor="#7c7c7c"
+            android:layout_below="@+id/textView_cell_title"
+            android:layout_alignStart="@+id/textView_cell_title"
+            android:layout_marginTop="4dp" />
+    </RelativeLayout>
+
+</LinearLayout>
