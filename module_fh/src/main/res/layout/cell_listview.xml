@@ -4,7 +4,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:background="#eeeeea"
+    android:background="@drawable/big_card"
     android:layout_marginLeft="@dimen/cell_horizontal_margin"
     android:layout_marginRight="@dimen/cell_horizontal_margin"
     android:layout_marginTop="@dimen/cell_vertical_margin"
@@ -30,8 +30,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:padding="8dp"
+        >
 
         <TextView
             android:layout_width="match_parent"
