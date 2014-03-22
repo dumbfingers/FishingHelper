@@ -1,4 +1,4 @@
-package com.yeyaxi.android.fishinghelper.dataUtil;
+package com.yeyaxi.android.fishinghelper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,16 +21,16 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "fishingdata";
     private static final String FTS_TABLE_FISH = "fts_fish";
 
-    private static final String KEY_ID = "_id";
-    private static final String KEY_TIMESTAMP = "timestamp";
-    private static final String KEY_GPS_LAT = "latitude";
-    private static final String KEY_GPS_LONG = "longitude";
-    private static final String KEY_ANGLER = "angler";
-    private static final String KEY_FISH_LENGTH = "fish_length";
-    private static final String KEY_FISH_WEIGHT = "fish_weight";
-    private static final String KEY_BAIT = "bait";
-    private static final String KEY_PHOTO = "photo";
-    private static final String KEY_NOTE = "note";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_TIMESTAMP = "timestamp";
+    public static final String KEY_GPS_LAT = "latitude";
+    public static final String KEY_GPS_LONG = "longitude";
+    public static final String KEY_ANGLER = "angler";
+    public static final String KEY_FISH_LENGTH = "fish_length";
+    public static final String KEY_FISH_WEIGHT = "fish_weight";
+    public static final String KEY_BAIT = "bait";
+    public static final String KEY_PHOTO = "photo";
+    public static final String KEY_NOTE = "note";
 
 
     private static final String CREATE_FISH_TABLE =

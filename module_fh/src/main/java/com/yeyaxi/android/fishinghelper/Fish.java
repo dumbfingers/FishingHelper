@@ -1,4 +1,4 @@
-package com.yeyaxi.android.fishinghelper.dataUtil;
+package com.yeyaxi.android.fishinghelper;
 
 
 
