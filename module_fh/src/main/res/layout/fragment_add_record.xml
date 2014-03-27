@@ -22,13 +22,14 @@
             android:inputType="datetime"
             android:layout_below="@+id/img_fish"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:editable="false"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="Fish Name"
+            android:hint="Fish Species"
             android:ems="10"
             android:id="@+id/text_fishname"
             android:layout_alignParentStart="true"
@@ -57,18 +58,9 @@
             android:hint="Fish Weight"
             android:drawableLeft="@drawable/ic_scale"
             android:drawablePadding="4dp"
-            android:layout_below="@+id/text_angler"
             android:layout_alignParentLeft="true"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_angler"
-            android:minHeight="48dp"
-            android:hint="Angler"
-            android:layout_below="@+id/text_location"
-            android:layout_alignParentLeft="true" />
+            android:inputType="numberDecimal"
+            android:layout_below="@+id/text_location" />
 
         <EditText
             android:layout_width="match_parent"
@@ -110,7 +102,7 @@
             android:ems="10"
             android:minHeight="48dp"
             android:id="@+id/text_note"
-            android:hint="Additional Notes"
+            android:hint="Notes"
             android:drawableLeft="@drawable/ic_action_edit"
             android:layout_alignParentStart="true"
             android:drawablePadding="4dp"

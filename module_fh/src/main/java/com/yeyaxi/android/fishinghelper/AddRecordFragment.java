@@ -2,8 +2,11 @@ package com.yeyaxi.android.fishinghelper;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -14,15 +17,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by yaxi on 16/03/2014.
@@ -36,7 +43,7 @@ public class AddRecordFragment extends SherlockFragment implements
     private EditText fishNameText;
     private EditText timestampText;
     private EditText locationText;
-    private EditText anglerText;
+//    private EditText anglerText;
     private EditText fishWeightText;
     private EditText fishLengthText;
     private EditText fishBaitText;
@@ -49,6 +56,9 @@ public class AddRecordFragment extends SherlockFragment implements
     private static final int MEDIA_TYPE_IMAGE = 1;
 
     private Uri fileUri;
+    private String filePath;
+    private Long currentTime;
+    private Location currentLocation;
 
     private LocationClient locationClient;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -62,7 +72,7 @@ public class AddRecordFragment extends SherlockFragment implements
         fishNameText = (EditText) view.findViewById(R.id.text_fishname);
         timestampText = (EditText) view.findViewById(R.id.text_timestamp);
         locationText = (EditText) view.findViewById(R.id.text_location);
-        anglerText = (EditText) view.findViewById(R.id.text_angler);
+//        anglerText = (EditText) view.findViewById(R.id.text_angler);
         fishWeightText = (EditText) view.findViewById(R.id.text_fishweight);
         fishLengthText = (EditText) view.findViewById(R.id.text_fishlength);
         fishBaitText = (EditText) view.findViewById(R.id.text_bait);
@@ -93,7 +103,8 @@ public class AddRecordFragment extends SherlockFragment implements
                 case R.id.button_done:
                     // Hide the done button
                     doneButton.setVisibility(View.GONE);
-                    switchToMain();
+
+                    saveToDbTask.execute();
 
                     break;
                 case R.id.img_fish:
@@ -114,6 +125,17 @@ public class AddRecordFragment extends SherlockFragment implements
     @Override
     public void onConnected(Bundle dataBundle) {
         Log.d(TAG, "Google Play Services Connected");
+
+        // set the location text when located
+        currentLocation = locationClient.getLastLocation();
+        locationText.setText(String.valueOf(currentLocation.getLatitude()) + ","
+                + String.valueOf(currentLocation.getLongitude()));
+
+        currentTime = currentLocation.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ssZ", Locale.UK);
+        timestampText.setText(sdf.format(new Date(currentTime)));
+
     }
 
     /**
@@ -162,16 +184,27 @@ public class AddRecordFragment extends SherlockFragment implements
 
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE
+                && resultCode == getSherlockActivity().RESULT_OK) {
+
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            fishImage.setImageBitmap(imageBitmap);
+        }
+    }
+
+
+    @Override
     public void onStart() {
         super.onStart();
 
         // connect the location client
         locationClient.connect();
 
-        // set the location text when located
-        Location currentLocation = locationClient.getLastLocation();
-        locationText.setText(String.valueOf(currentLocation.getLatitude()) + ","
-                + String.valueOf(currentLocation.getLongitude()));
+
+
     }
 
     @Override
@@ -182,6 +215,57 @@ public class AddRecordFragment extends SherlockFragment implements
         super.onStop();
 
     }
+
+    /**
+     *
+     */
+    AsyncTask<Void, Void, Void> saveToDbTask = new AsyncTask<Void, Void, Void>() {
+
+        @Override
+        protected void onProgressUpdate(Void... progress) {
+            Toast.makeText(getSherlockActivity(), "Saving...", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            saveToDb();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            Toast.makeText(getSherlockActivity(), "Fish Records Saved!", Toast.LENGTH_LONG).show();
+            switchToMain();
+        }
+    };
+
+    /**
+     * save the entered content to db
+     */
+    private void saveToDb() {
+        FishingDataOpenHelper db = new FishingDataOpenHelper(getSherlockActivity());
+
+        Fish fish = new Fish();
+
+//        fish.setImgPath();
+        fish.setFishName(fishNameText.getText().toString());
+        fish.setTimeStamp(currentTime);
+        fish.setLatitude((float) currentLocation.getLatitude());
+        fish.setLongitude((float) currentLocation.getLongitude());
+        fish.setFishWeight(Float.parseFloat(fishWeightText.getText().toString()));
+        fish.setFishLength(Float.parseFloat(fishLengthText.getText().toString()));
+        fish.setBait(fishBaitText.getText().toString());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Bitmap bitmap= BitmapFactory.decodeFile(filePath);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+
+        fish.setImgByteArray(baos.toByteArray());
+        fish.setNote(noteText.getText().toString());
+
+        db.addFish(fish);
+    }
+
     /**
      * will switch to main record list
      */
@@ -275,7 +359,12 @@ public class AddRecordFragment extends SherlockFragment implements
                 return null;
             }
         }
-
+        try {
+            filePath = mediaFile.getCanonicalPath();
+            Log.d(TAG, "Photo saved to: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return mediaFile;
     }
 

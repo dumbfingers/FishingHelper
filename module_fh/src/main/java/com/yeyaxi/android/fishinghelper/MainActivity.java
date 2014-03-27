@@ -100,9 +100,9 @@ public class MainActivity extends BaseActivity {
 
         //TODO prompt user to confirm "Save/Dicard", label the unfinished records
 
-        if (getSupportFragmentManager().findFragmentByTag("AddRecordFragment") != null
-                && getSupportFragmentManager().findFragmentByTag("MainFragment") != null)  {
-
+//        if (getSupportFragmentManager().findFragmentByTag("AddRecordFragment") != null
+//                && getSupportFragmentManager().findFragmentByTag("MainFragment") != null)  {
+          if (getSupportFragmentManager().findFragmentByTag("AddRecordFragment") != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content_frame, new MainFragment(), "MainFragment")

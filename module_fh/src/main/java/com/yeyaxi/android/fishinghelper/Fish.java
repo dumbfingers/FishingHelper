@@ -8,14 +8,16 @@ package com.yeyaxi.android.fishinghelper;
 public class Fish {
 
     private int id;
-    private int timeStamp;
+
+    private String fishName;
+    private long timeStamp;
     private float latitude;
     private float longitude;
-    private String angler;
+//    private String angler;
     private float fishLength;
     private float fishWeight;
     private String bait;
-    private String imgPath;
+    private byte[] imgByteArray;
     private String note;
 
     /**
@@ -25,16 +27,19 @@ public class Fish {
 
     }
 
-    public Fish(int id, int timeStamp, float latitude, float longitude, String angler, float fishLength,
-                float fishWeight, String bait, String imgPath, String note) {
+    public Fish(int id, String fishName, long timeStamp, float latitude, float longitude,
+//                String angler,
+                float fishLength,
+                float fishWeight, String bait, byte[] imgByteArray, String note) {
+        this.fishName = fishName;
         this.timeStamp = timeStamp;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.angler = angler;
+//        this.angler = angler;
         this.fishLength = fishLength;
         this.fishWeight = fishWeight;
         this.bait = bait;
-        this.imgPath = imgPath;
+        this.imgByteArray = this.imgByteArray;
         this.note = note;
     }
 
@@ -46,11 +51,19 @@ public class Fish {
         this.id = id;
     }
 
-    public int getTimeStamp() {
+    public String getFishName() {
+        return fishName;
+    }
+
+    public void setFishName(String fishName) {
+        this.fishName = fishName;
+    }
+
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(int timeStamp) {
+    public void setTimeStamp(Long timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -70,13 +83,13 @@ public class Fish {
         this.longitude = longitude;
     }
 
-    public String getAngler() {
-        return angler;
-    }
+//    public String getAngler() {
+//        return angler;
+//    }
 
-    public void setAngler(String angler) {
-        this.angler = angler;
-    }
+//    public void setAngler(String angler) {
+//        this.angler = angler;
+//    }
 
     public float getFishLength() {
         return fishLength;
@@ -102,12 +115,12 @@ public class Fish {
         this.bait = bait;
     }
 
-    public String getImgPath() {
-        return imgPath;
+    public byte[] getImgByteArray() {
+        return imgByteArray;
     }
 
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
+    public void setImgByteArray(byte[] imgByteArray) {
+        this.imgByteArray = imgByteArray;
     }
 
     public String getNote() {

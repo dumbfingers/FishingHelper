@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee"
     android:padding="@dimen/activity_horizontal_margin">
@@ -42,7 +43,7 @@
                 android:textColor="?android:attr/textColorSecondary" />
 
             <TextView android:id="@+id/summary_imp_units"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:text="Use inch, foot, mile and pound"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title_imp_units"
@@ -79,8 +80,8 @@
                 android:textColor="?android:attr/textColorSecondary" />
 
             <TextView android:id="@+id/summary_met_units"
-                android:layout_width="wrap_content"
-                android:text="Use centimetre, metre, kilometre\nand kilogram"
+                android:layout_width="150dp"
+                android:text="Use centimetre, metre, kilometre and kilogram"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title_met_units"
                 android:layout_alignStart="@+id/title_met_units"
