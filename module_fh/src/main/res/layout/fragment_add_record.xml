@@ -50,17 +50,25 @@
             android:layout_below="@+id/text_fishname"
             android:layout_alignParentLeft="true" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_fishweight"
-            android:minHeight="48dp"
-            android:hint="Fish Weight"
-            android:drawableLeft="@drawable/ic_scale"
-            android:drawablePadding="4dp"
-            android:layout_alignParentLeft="true"
-            android:inputType="numberDecimal"
-            android:layout_below="@+id/text_location" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/text_location">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_fishweight"
+                android:minHeight="48dp"
+                android:hint="Fish Weight"
+                android:drawableLeft="@drawable/ic_scale"
+                android:drawablePadding="4dp"
+                android:layout_alignParentLeft="true"
+                android:inputType="numberDecimal"
+                android:layout_below="@+id/text_location" />
+        </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
@@ -70,7 +78,7 @@
             android:minHeight="48dp"
             android:drawableLeft="@drawable/ic_ruler"
             android:hint="Fish Length"
-            android:layout_below="@+id/text_fishweight"
+            android:layout_below="@+id/linearLayout"
             android:layout_alignParentLeft="true"
             android:inputType="numberDecimal" />
         <EditText

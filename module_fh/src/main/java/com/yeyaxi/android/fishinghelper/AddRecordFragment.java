@@ -83,7 +83,7 @@ public class AddRecordFragment extends SherlockFragment implements
 
         doneButton = (Button) absView.findViewById(R.id.button_done);
 
-        doneButton.setVisibility(View.VISIBLE);
+//        doneButton.setVisibility(View.VISIBLE);
 
         doneButton.setOnClickListener(onClickListener);
         fishImage.setOnClickListener(onClickListener);
@@ -102,7 +102,7 @@ public class AddRecordFragment extends SherlockFragment implements
             switch (v.getId()) {
                 case R.id.button_done:
                     // Hide the done button
-                    doneButton.setVisibility(View.GONE);
+//                    doneButton.setVisibility(View.GONE);
 
                     saveToDbTask.execute();
 
@@ -252,15 +252,23 @@ public class AddRecordFragment extends SherlockFragment implements
         fish.setTimeStamp(currentTime);
         fish.setLatitude((float) currentLocation.getLatitude());
         fish.setLongitude((float) currentLocation.getLongitude());
-        fish.setFishWeight(Float.parseFloat(fishWeightText.getText().toString()));
+
+        if (fishWeightText.getText().toString().equals("") != true) {
+            fish.setFishWeight(Float.parseFloat(fishWeightText.getText().toString()));
+        }
+        if (fishLengthText.getText().toString().equals("") != true) {
         fish.setFishLength(Float.parseFloat(fishLengthText.getText().toString()));
+        }
+
         fish.setBait(fishBaitText.getText().toString());
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Bitmap bitmap= BitmapFactory.decodeFile(filePath);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+        if (filePath != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
 
-        fish.setImgByteArray(baos.toByteArray());
+            fish.setImgByteArray(baos.toByteArray());
+        }
         fish.setNote(noteText.getText().toString());
 
         db.addFish(fish);
@@ -367,5 +375,13 @@ public class AddRecordFragment extends SherlockFragment implements
         }
         return mediaFile;
     }
+
+//    private String getMeasurementUnit() {
+//
+//        if (((MainActivity)getSherlockActivity()).isMetricUnit() == true) {
+//
+//        }
+//
+//    }
 
 }

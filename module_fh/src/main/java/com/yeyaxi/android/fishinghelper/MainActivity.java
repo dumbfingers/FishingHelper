@@ -1,12 +1,15 @@
 package com.yeyaxi.android.fishinghelper;
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.CheckBox;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * @author yaxi
@@ -21,6 +24,8 @@ public class MainActivity extends BaseActivity {
 //    private Button addRecordButton;
 
     private ActionBarDrawerToggle mDrawerToggle;
+
+    private boolean isMetricUnit = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,29 @@ public class MainActivity extends BaseActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        CheckBox checkBoxImperial = (CheckBox) mSwitchView.findViewById(R.id.checkbox_imp);
+        CheckBox checkBoxMetric = (CheckBox) mSwitchView.findViewById(R.id.checkbox_met);
 
+        if (checkBoxImperial.isChecked() == true) {
+            checkBoxMetric.setChecked(false);
+            isMetricUnit = false;
+        }
+
+        if (checkBoxMetric.isChecked() == true) {
+            checkBoxImperial.setChecked(false);
+            isMetricUnit = true;
+        }
+
+        // set the tint of actionbar and navigation bar
+        if (isNewerThanKitKat() == true) {
+            // set tint
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintColor(getResources().getColor(R.color.action_bar_tint));
+
+            tintManager.setNavigationBarTintEnabled(true);
+            tintManager.setNavigationBarTintColor(getResources().getColor(R.color.navigation_bar_tint));
+        }
     }
 
 
@@ -110,5 +137,17 @@ public class MainActivity extends BaseActivity {
 
         }
 
+    }
+
+    private boolean isNewerThanKitKat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isMetricUnit() {
+        return isMetricUnit;
     }
 }
