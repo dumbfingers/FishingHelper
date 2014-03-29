@@ -4,7 +4,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:background="@drawable/big_card"
+    android:background="#ffffff"
     android:layout_marginLeft="@dimen/cell_horizontal_margin"
     android:layout_marginRight="@dimen/cell_horizontal_margin"
     android:layout_marginTop="@dimen/cell_vertical_margin"
@@ -26,7 +26,7 @@
         android:maxWidth="@dimen/cell_img_dimen"
         android:cropToPadding="false"
         android:scaleType="centerInside"
-        android:padding="4dp" />
+/>
 
     <RelativeLayout
         android:layout_width="fill_parent"

@@ -7,6 +7,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -20,6 +21,9 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     private View mSwitchView;
 //    private View mainView;
+
+    private CheckBox checkBoxImperial;
+    private CheckBox checkBoxMetric;
 
 //    private Button addRecordButton;
 
@@ -66,18 +70,20 @@ public class MainActivity extends BaseActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        CheckBox checkBoxImperial = (CheckBox) mSwitchView.findViewById(R.id.checkbox_imp);
-        CheckBox checkBoxMetric = (CheckBox) mSwitchView.findViewById(R.id.checkbox_met);
+        checkBoxImperial = (CheckBox) mSwitchView.findViewById(R.id.checkbox_imp);
+        checkBoxMetric = (CheckBox) mSwitchView.findViewById(R.id.checkbox_met);
 
-        if (checkBoxImperial.isChecked() == true) {
-            checkBoxMetric.setChecked(false);
-            isMetricUnit = false;
-        }
+//        if (checkBoxImperial.isChecked() == true) {
+//
+//        }
+//
+//        if (checkBoxMetric.isChecked() == true) {
+//            checkBoxImperial.setChecked(false);
+//            isMetricUnit = true;
+//        }
 
-        if (checkBoxMetric.isChecked() == true) {
-            checkBoxImperial.setChecked(false);
-            isMetricUnit = true;
-        }
+        checkBoxImperial.setOnCheckedChangeListener(checkedChangeListener);
+        checkBoxMetric.setOnCheckedChangeListener(checkedChangeListener);
 
         // set the tint of actionbar and navigation bar
         if (isNewerThanKitKat() == true) {
@@ -90,6 +96,23 @@ public class MainActivity extends BaseActivity {
             tintManager.setNavigationBarTintColor(getResources().getColor(R.color.navigation_bar_tint));
         }
     }
+
+    CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            switch (buttonView.getId()) {
+                case R.id.checkbox_met:
+                    checkBoxImperial.setChecked(false);
+                    isMetricUnit = true;
+                    break;
+                case R.id.checkbox_imp:
+                    checkBoxMetric.setChecked(false);
+                    isMetricUnit = false;
+                    break;
+            }
+        }
+    };
 
 
     @Override

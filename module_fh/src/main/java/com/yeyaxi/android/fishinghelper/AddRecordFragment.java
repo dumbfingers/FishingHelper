@@ -83,7 +83,7 @@ public class AddRecordFragment extends SherlockFragment implements
 
         doneButton = (Button) absView.findViewById(R.id.button_done);
 
-//        doneButton.setVisibility(View.VISIBLE);
+        doneButton.setVisibility(View.VISIBLE);
 
         doneButton.setOnClickListener(onClickListener);
         fishImage.setOnClickListener(onClickListener);
@@ -102,7 +102,7 @@ public class AddRecordFragment extends SherlockFragment implements
             switch (v.getId()) {
                 case R.id.button_done:
                     // Hide the done button
-//                    doneButton.setVisibility(View.GONE);
+                    doneButton.setVisibility(View.GONE);
 
                     saveToDbTask.execute();
 
@@ -188,10 +188,11 @@ public class AddRecordFragment extends SherlockFragment implements
 
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE
                 && resultCode == getSherlockActivity().RESULT_OK) {
-
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            fishImage.setImageBitmap(imageBitmap);
+            // the "data" will be null
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            setThumbnail.execute(filePath);
+//            fishImage.setImageBitmap(imageBitmap);
         }
     }
 
@@ -215,6 +216,20 @@ public class AddRecordFragment extends SherlockFragment implements
         super.onStop();
 
     }
+
+    AsyncTask<String, Void, Bitmap> setThumbnail = new AsyncTask<String, Void, Bitmap>() {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = decodeSampledBitmapFromFile(params[0], fishImage.getWidth(), fishImage.getHeight());
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bm) {
+            fishImage.setImageBitmap(bm);
+        }
+    };
 
     /**
      *
@@ -384,4 +399,39 @@ public class AddRecordFragment extends SherlockFragment implements
 //
 //    }
 
+    public static int calculateInSampleSize (BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    public static Bitmap decodeSampledBitmapFromFile (String pathName, int reqWidth, int reqHeight) {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(pathName, options);
+
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // decode with required size
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeFile(pathName, options);
+    }
 }

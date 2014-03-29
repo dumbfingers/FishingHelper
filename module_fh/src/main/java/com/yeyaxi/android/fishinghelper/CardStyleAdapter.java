@@ -1,6 +1,8 @@
 package com.yeyaxi.android.fishinghelper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +56,27 @@ public class CardStyleAdapter extends ArrayAdapter {
 
         Fish fish = (Fish)list.get(position);
         holder.title.setText(fish.getFishName());
-//        holder.img.set
+
+        if (fish.getImgByteArray() != null) {
+            holder.img.setImageBitmap(decodeThumbnailFromBlob(
+                    fish.getImgByteArray(), holder.img.getWidth(), holder.img.getHeight()));
+        }
         return convertView;
     }
 
+
+    private Bitmap decodeThumbnailFromBlob(byte[] imgBytes, int reqWidth, int reqHeight) {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, options);
+
+        options.inSampleSize = AddRecordFragment.calculateInSampleSize(options, reqWidth, reqHeight);
+
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, options);
+    }
 
     static class FishViewHolder {
         TextView title;

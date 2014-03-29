@@ -16,7 +16,7 @@
         android:text="Done"
         android:textStyle="bold"
         android:layout_gravity="center_vertical"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:textColor="@android:color/darker_gray"
         style="@style/Widget.Sherlock.ActionButton"/>
 </LinearLayout>

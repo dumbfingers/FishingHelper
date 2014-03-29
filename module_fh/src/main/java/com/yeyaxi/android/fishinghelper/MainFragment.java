@@ -93,7 +93,7 @@ public class MainFragment extends SherlockFragment {
 //            countText.setText(db.getFishCount());
 //        } else {
 //            db = new FishingDataOpenHelper(getSherlockActivity());
-//            countText.setText(db.getFishCount());
+            countText.setText(String.valueOf(db.getFishCount()));
 //        }
 
         List<Fish> fishArrayList = new ArrayList<Fish>();
