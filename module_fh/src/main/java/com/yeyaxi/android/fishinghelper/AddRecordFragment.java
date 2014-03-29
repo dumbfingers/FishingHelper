@@ -83,8 +83,6 @@ public class AddRecordFragment extends SherlockFragment implements
 
         doneButton = (Button) absView.findViewById(R.id.button_done);
 
-        doneButton.setVisibility(View.VISIBLE);
-
         doneButton.setOnClickListener(onClickListener);
         fishImage.setOnClickListener(onClickListener);
 
@@ -204,7 +202,13 @@ public class AddRecordFragment extends SherlockFragment implements
         // connect the location client
         locationClient.connect();
 
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        doneButton.setVisibility(View.VISIBLE);
 
     }
 
@@ -214,6 +218,8 @@ public class AddRecordFragment extends SherlockFragment implements
         locationClient.disconnect();
 
         super.onStop();
+
+        doneButton.setVisibility(View.GONE);
 
     }
 
@@ -280,6 +286,14 @@ public class AddRecordFragment extends SherlockFragment implements
         if (filePath != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+            if (bitmap.getWidth() > bitmap.getHeight() && bitmap.getWidth() > 3000 ||
+                    bitmap.getHeight() > bitmap.getWidth() && bitmap.getHeight() > 3000) {
+
+                // compress the bitmap so that the image size will not exceed 2MB
+                bitmap = bitmap.createScaledBitmap(
+                        bitmap, (int)(bitmap.getWidth() * 0.5), (int)(bitmap.getHeight() * 0.5), false);
+
+            }
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
 
             fish.setImgByteArray(baos.toByteArray());

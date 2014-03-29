@@ -3,5 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen><dimen name="divider_padding">6dp</dimen>
     <dimen name="preference_item_padding_side">8dip</dimen>
-    <dimen name="preference_item_padding_inner">8dip</dimen><dimen name="cell_horizontal_margin">8dp</dimen><dimen name="cell_vertical_margin">8dp</dimen><dimen name="cell_img_dimen">90dp</dimen>
+    <dimen name="preference_item_padding_inner">8dip</dimen><dimen name="cell_horizontal_margin">8dp</dimen><dimen name="cell_vertical_margin">8dp</dimen><dimen name="cell_img_dimen">80dp</dimen>
     </resources>

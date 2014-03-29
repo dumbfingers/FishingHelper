@@ -115,12 +115,13 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Fish fish = null;
 
-        try {
-            // SELECT * FROM TABLE_FISH WHERE KEY_ID=id;
-            Cursor cursor = db.query(
+        // SELECT * FROM TABLE_FISH WHERE KEY_ID=id;
+        Cursor cursor = db.query(
                 FTS_TABLE_FISH, null, KEY_ID + "=" + String.valueOf(id), null, null, null, null);
 
-            cursor.moveToFirst();
+        try {
+
+             cursor.moveToFirst();
 
             //TODO check cursor.getString(8)
             fish = new Fish (Integer.parseInt(cursor.getString(0)), cursor.getString(1), Integer.parseInt(cursor.getString(2)),
@@ -134,6 +135,8 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
             // Cursor is null
             npe.printStackTrace();
             Log.e(TAG, "Something wrong with database query, cursor returns null");
+        } finally {
+            cursor.close();
         }
 
         return fish;

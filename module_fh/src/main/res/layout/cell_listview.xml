@@ -4,7 +4,6 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:background="#ffffff"
     android:layout_marginLeft="@dimen/cell_horizontal_margin"
     android:layout_marginRight="@dimen/cell_horizontal_margin"
     android:layout_marginTop="@dimen/cell_vertical_margin"

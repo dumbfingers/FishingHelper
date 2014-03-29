@@ -1,48 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#ffeeeeee"
     tools:context="com.yeyaxi.android.fishinghelper.MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add New Record"
-        android:drawableLeft="@drawable/ic_action_new"
-        android:id="@+id/button_new_record"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        style="@style/Widget.Sherlock.Light.ActionButton" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:id="@+id/textView_counter"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:visibility="visible"
-        android:layout_gravity="center_vertical"
-        android:textColor="@android:color/darker_gray"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/button_new_record"
-        android:minHeight="48dp"
-        android:gravity="center_vertical" />
-
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/listView"
-        android:layout_below="@+id/button_new_record"
-        android:layout_centerHorizontal="true"
         android:fitsSystemWindows="true"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true" />
+
+
 
     <!--<it.gmariotti.cardslib.library.view.CardGridView-->
         <!--android:layout_width="match_parent"-->
@@ -57,4 +31,4 @@
         <!--android:layout_below="@+id/button_new_record"-->
         <!--android:layout_marginTop="@dimen/activity_vertical_margin" />-->
 
-</RelativeLayout>
+</FrameLayout>

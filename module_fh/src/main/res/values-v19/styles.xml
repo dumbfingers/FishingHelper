@@ -4,8 +4,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
-
-
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <!-- Customize your theme here. -->
     </style>
 

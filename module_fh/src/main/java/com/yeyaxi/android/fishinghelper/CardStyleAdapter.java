@@ -3,6 +3,7 @@ package com.yeyaxi.android.fishinghelper;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,10 @@ public class CardStyleAdapter extends ArrayAdapter {
     private LayoutInflater inflater;
     private List list;
 
+    private int reqWidth;
+    private int reqHeight;
+    private FishViewHolder holder = null;
+
 
     public CardStyleAdapter(Context context, int layout, List list) {
         super(context, layout, list);
@@ -37,7 +42,6 @@ public class CardStyleAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        FishViewHolder holder = null;
 
         if (convertView == null) {
 
@@ -57,13 +61,43 @@ public class CardStyleAdapter extends ArrayAdapter {
         Fish fish = (Fish)list.get(position);
         holder.title.setText(fish.getFishName());
 
+//        reqWidth = holder.img.getWidth();
+//        reqHeight = holder.img.getHeight();
+
         if (fish.getImgByteArray() != null) {
             holder.img.setImageBitmap(decodeThumbnailFromBlob(
                     fish.getImgByteArray(), holder.img.getWidth(), holder.img.getHeight()));
+//            new LoadThumbnailToList().execute(fish.getImgByteArray());
         }
         return convertView;
     }
 
+//    private class LoadThumbnailToList extends AsyncTask<byte[], Void, Bitmap> {
+//        @Override
+//        protected Bitmap doInBackground(byte[]... params) {
+//            Bitmap bitmap = decodeThumbnailFromBlob(
+//                    params[0], holder.img.getWidth(), holder.img.getHeight());
+//            return bitmap;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Bitmap bm) {
+//            holder.img.setImageBitmap(bm);
+//        }
+//    }
+    AsyncTask<byte[], Void, Bitmap> loadThumbnailToList = new AsyncTask<byte[], Void, Bitmap>() {
+        @Override
+        protected Bitmap doInBackground(byte[]... params) {
+            Bitmap bitmap = decodeThumbnailFromBlob(
+                    params[0], holder.img.getWidth(), holder.img.getHeight());
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bm) {
+            holder.img.setImageBitmap(bm);
+        }
+    };
 
     private Bitmap decodeThumbnailFromBlob(byte[] imgBytes, int reqWidth, int reqHeight) {
 

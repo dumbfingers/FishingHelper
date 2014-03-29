@@ -37,11 +37,12 @@ public class MainFragment extends SherlockFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        addRecordButton = (Button) view.findViewById(R.id.button_new_record);
         listView = (ListView) view.findViewById(R.id.listView);
         countText = (TextView) view.findViewById(R.id.textView_counter);
 
-//        View absView = getSherlockActivity().getSupportActionBar().getCustomView();
+        View absView = getSherlockActivity().getSupportActionBar().getCustomView();
+        addRecordButton = (Button) absView.findViewById(R.id.button_new_record);
+
 //        Card card = new Card(getSherlockActivity());
 //        CardHeader header = new CardHeader(getSherlockActivity());
 
@@ -68,6 +69,7 @@ public class MainFragment extends SherlockFragment {
                         .beginTransaction()
                         .replace(R.id.content_frame, new AddRecordFragment(), "AddRecordFragment")
                         .commit();
+                addRecordButton.setVisibility(View.GONE);
             }
         });
 
@@ -85,6 +87,10 @@ public class MainFragment extends SherlockFragment {
     public void onResume() {
         super.onResume();
 
+        if (addRecordButton.getVisibility() != View.VISIBLE) {
+            addRecordButton.setVisibility(View.VISIBLE);
+        }
+
         db = new FishingDataOpenHelper(getSherlockActivity());
 
 //        if (countText.getVisibility() != View.VISIBLE) {
@@ -93,7 +99,7 @@ public class MainFragment extends SherlockFragment {
 //            countText.setText(db.getFishCount());
 //        } else {
 //            db = new FishingDataOpenHelper(getSherlockActivity());
-            countText.setText(String.valueOf(db.getFishCount()));
+//            countText.setText(String.valueOf(db.getFishCount()));
 //        }
 
         List<Fish> fishArrayList = new ArrayList<Fish>();
