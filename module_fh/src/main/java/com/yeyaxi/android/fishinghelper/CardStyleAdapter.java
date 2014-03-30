@@ -1,15 +1,16 @@
 package com.yeyaxi.android.fishinghelper;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
@@ -27,7 +28,8 @@ public class CardStyleAdapter extends ArrayAdapter {
     private int reqWidth;
     private int reqHeight;
     private FishViewHolder holder = null;
-
+    private DisplayImageOptions options;
+    private ImageLoader imageLoader;
 
     public CardStyleAdapter(Context context, int layout, List list) {
         super(context, layout, list);
@@ -37,6 +39,20 @@ public class CardStyleAdapter extends ArrayAdapter {
 //        this.cursor = c;
         this.list = list;
         this.inflater = LayoutInflater.from(context);
+
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.ic_action_picture)
+                .showImageOnFail(R.drawable.ic_action_warning)
+                .cacheOnDisc(true)
+                .cacheInMemory(true)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                .imageDownloader(new SQLiteImageLoader(context))
+                .build();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(config);
+
     }
 
     @Override
@@ -64,11 +80,13 @@ public class CardStyleAdapter extends ArrayAdapter {
 //        reqWidth = holder.img.getWidth();
 //        reqHeight = holder.img.getHeight();
 
-        if (fish.getImgByteArray() != null) {
-            holder.img.setImageBitmap(decodeThumbnailFromBlob(
-                    fish.getImgByteArray(), holder.img.getWidth(), holder.img.getHeight()));
-//            new LoadThumbnailToList().execute(fish.getImgByteArray());
-        }
+//        if (fish.getImgByteArray() != null) {
+//            holder.img.setImageBitmap(decodeThumbnailFromBlob(
+//                    fish.getImgByteArray(), holder.img.getWidth(), holder.img.getHeight()));
+////            new LoadThumbnailToList().execute(fish.getImgByteArray());
+//        }
+        imageLoader.displayImage("db://" + position, holder.img, options);
+
         return convertView;
     }
 
@@ -85,32 +103,32 @@ public class CardStyleAdapter extends ArrayAdapter {
 //            holder.img.setImageBitmap(bm);
 //        }
 //    }
-    AsyncTask<byte[], Void, Bitmap> loadThumbnailToList = new AsyncTask<byte[], Void, Bitmap>() {
-        @Override
-        protected Bitmap doInBackground(byte[]... params) {
-            Bitmap bitmap = decodeThumbnailFromBlob(
-                    params[0], holder.img.getWidth(), holder.img.getHeight());
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bm) {
-            holder.img.setImageBitmap(bm);
-        }
-    };
-
-    private Bitmap decodeThumbnailFromBlob(byte[] imgBytes, int reqWidth, int reqHeight) {
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, options);
-
-        options.inSampleSize = AddRecordFragment.calculateInSampleSize(options, reqWidth, reqHeight);
-
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, options);
-    }
+//    AsyncTask<byte[], Void, Bitmap> loadThumbnailToList = new AsyncTask<byte[], Void, Bitmap>() {
+//        @Override
+//        protected Bitmap doInBackground(byte[]... params) {
+//            Bitmap bitmap = decodeThumbnailFromBlob(
+//                    params[0], holder.img.getWidth(), holder.img.getHeight());
+//            return bitmap;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Bitmap bm) {
+//            holder.img.setImageBitmap(bm);
+//        }
+//    };
+//
+//    private Bitmap decodeThumbnailFromBlob(byte[] imgBytes, int reqWidth, int reqHeight) {
+//
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+//        BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, options);
+//
+//        options.inSampleSize = AddRecordFragment.calculateInSampleSize(options, reqWidth, reqHeight);
+//
+//        options.inJustDecodeBounds = false;
+//
+//        return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, options);
+//    }
 
     static class FishViewHolder {
         TextView title;

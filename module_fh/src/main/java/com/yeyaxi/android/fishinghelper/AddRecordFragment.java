@@ -89,7 +89,6 @@ public class AddRecordFragment extends SherlockFragment implements
         // invoke the location manager
         locationClient = new LocationClient(getSherlockActivity(), this, this);
 
-
         return view;
     }
 
@@ -101,9 +100,7 @@ public class AddRecordFragment extends SherlockFragment implements
                 case R.id.button_done:
                     // Hide the done button
                     doneButton.setVisibility(View.GONE);
-
                     saveToDbTask.execute();
-
                     break;
                 case R.id.img_fish:
                     // call the camera
