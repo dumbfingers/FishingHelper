@@ -25,7 +25,8 @@
             android:layout_below="@+id/img_fish"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:editable="false"/>
+            android:editable="false"
+            android:enabled="false"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -62,14 +63,24 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:id="@+id/text_fishweight"
                 android:minHeight="48dp"
                 android:hint="Fish Weight"
                 android:drawableLeft="@drawable/ic_scale"
                 android:drawablePadding="4dp"
                 android:layout_alignParentLeft="true"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:inputType="numberDecimal"
-                android:layout_below="@+id/text_location" />
+                android:minHeight="48dp"
+                android:hint="(oz)"
+                android:id="@+id/text_imperial"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <EditText
@@ -95,12 +106,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/img_fish"
-            android:src="@drawable/ic_camera"
+            android:src="@drawable/ic_action_camera"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="false"
             android:layout_alignParentStart="true"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            android:scaleType="centerInside"
             android:clickable="true"
             android:maxHeight="184dp"
             android:layout_centerHorizontal="true" />

@@ -21,6 +21,12 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class BaseActivity extends SherlockFragmentActivity {
 
+    // unit conversions
+    public static final float POUND_TO_KG = 0.453f;
+    public static final float OUNCE_TO_KG = 0.028f;
+    public static final float INCH_TO_METRES = 0.025f;
+    public static final float CM_TO_METRES = 0.01f;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

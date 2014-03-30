@@ -5,9 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -17,19 +18,23 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
  */
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private DrawerLayout mDrawerLayout;
     private View mSwitchView;
 //    private View mainView;
 
-    private CheckBox checkBoxImperial;
-    private CheckBox checkBoxMetric;
+    private RadioGroup radioUnit;
+    private RadioButton radioImperial;
+    private RadioButton radioMetric;
 
 //    private Button addRecordButton;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
     private boolean isMetricUnit = false;
+
+    private OnCheckBoxCheckedListener listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,9 +75,9 @@ public class MainActivity extends BaseActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        checkBoxImperial = (CheckBox) mSwitchView.findViewById(R.id.checkbox_imp);
-        checkBoxMetric = (CheckBox) mSwitchView.findViewById(R.id.checkbox_met);
-
+        radioImperial = (RadioButton) mSwitchView.findViewById(R.id.radioButton_imp);
+        radioMetric = (RadioButton) mSwitchView.findViewById(R.id.radioButton_metric);
+        radioUnit = (RadioGroup) mSwitchView.findViewById(R.id.radioGroup_unit);
 //        if (checkBoxImperial.isChecked() == true) {
 //
 //        }
@@ -82,8 +87,9 @@ public class MainActivity extends BaseActivity {
 //            isMetricUnit = true;
 //        }
 
-        checkBoxImperial.setOnCheckedChangeListener(checkedChangeListener);
-        checkBoxMetric.setOnCheckedChangeListener(checkedChangeListener);
+        listener = (OnCheckBoxCheckedListener)(getSupportFragmentManager().findFragmentByTag("AddRecordFragment"));
+
+        radioUnit.setOnCheckedChangeListener(checkedChangeListener);
 
         // set the tint of actionbar and navigation bar
         if (isNewerThanKitKat() == true) {
@@ -97,19 +103,27 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-            switch (buttonView.getId()) {
-                case R.id.checkbox_met:
-                    checkBoxImperial.setChecked(false);
-                    isMetricUnit = true;
-                    break;
-                case R.id.checkbox_imp:
-                    checkBoxMetric.setChecked(false);
-                    isMetricUnit = false;
-                    break;
+
+
+    RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+//            switch (checkedId) {
+//                case R.id.radioButton_metric:
+//                    radioImperial.setChecked(false);
+//                    isMetricUnit = true;
+//                    break;
+//                case R.id.radioButton_imp:
+//                    radioMetric.setChecked(false);
+//                    isMetricUnit = false;
+//                    break;
+//            }
+            Log.d(TAG, "" + checkedId);
+
+            if (listener != null) {
+                listener.onCheckBoxChecked(checkedId);
             }
         }
     };
@@ -170,7 +184,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public boolean isMetricUnit() {
-        return isMetricUnit;
+//    public boolean isMetricUnit() {
+//        return isMetricUnit;
+//    }
+
+    public interface OnCheckBoxCheckedListener {
+        public void onCheckBoxChecked(int viewId);
     }
 }

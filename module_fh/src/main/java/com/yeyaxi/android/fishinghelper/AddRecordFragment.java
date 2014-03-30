@@ -36,21 +36,25 @@ import java.util.Locale;
  */
 public class AddRecordFragment extends SherlockFragment implements
         GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener {
+        GooglePlayServicesClient.OnConnectionFailedListener,
+        MainActivity.OnCheckBoxCheckedListener {
 
     private static final String TAG = AddRecordFragment.class.getSimpleName();
 
     private EditText fishNameText;
     private EditText timestampText;
     private EditText locationText;
-//    private EditText anglerText;
+    //    private EditText anglerText;
     private EditText fishWeightText;
+    private EditText fishWeightTextImp; //Additional text for imperial units
     private EditText fishLengthText;
     private EditText fishBaitText;
     private ImageView fishImage;
     private EditText noteText;
 
     private Button doneButton;
+
+    private boolean isMetricUnit = true;
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int MEDIA_TYPE_IMAGE = 1;
@@ -74,6 +78,8 @@ public class AddRecordFragment extends SherlockFragment implements
         locationText = (EditText) view.findViewById(R.id.text_location);
 //        anglerText = (EditText) view.findViewById(R.id.text_angler);
         fishWeightText = (EditText) view.findViewById(R.id.text_fishweight);
+        fishWeightTextImp = (EditText) view.findViewById(R.id.text_imperial);
+
         fishLengthText = (EditText) view.findViewById(R.id.text_fishlength);
         fishBaitText = (EditText) view.findViewById(R.id.text_bait);
         fishImage = (ImageView) view.findViewById(R.id.img_fish);
@@ -85,6 +91,9 @@ public class AddRecordFragment extends SherlockFragment implements
 
         doneButton.setOnClickListener(onClickListener);
         fishImage.setOnClickListener(onClickListener);
+
+//        isMetricUnit = ((MainActivity)getSherlockActivity()).isMetricUnit();
+
 
         // invoke the location manager
         locationClient = new LocationClient(getSherlockActivity(), this, this);
@@ -110,6 +119,29 @@ public class AddRecordFragment extends SherlockFragment implements
 
         }
     };
+
+    @Override
+    public void onCheckBoxChecked(int id) {
+        switch (id) {
+
+            case R.id.radioButton_imp:
+
+                // enable the input of imperial unit
+                fishWeightTextImp.setVisibility(View.VISIBLE);
+                fishWeightText.setHint("Fish Weight(lbs)");
+                fishLengthText.setHint("Fish Length(inch)");
+                isMetricUnit = false;
+                break;
+
+            case R.id.radioButton_metric:
+
+                fishWeightTextImp.setVisibility(View.GONE);
+                fishWeightText.setHint("Fish Weight(kg)");
+                fishLengthText.setHint("Fish Length(cm)");
+                isMetricUnit = true;
+                break;
+        }
+    }
 
     /**
      * Called by Location Services when the request to connect the
@@ -272,10 +304,34 @@ public class AddRecordFragment extends SherlockFragment implements
         fish.setLongitude((float) currentLocation.getLongitude());
 
         if (fishWeightText.getText().toString().equals("") != true) {
-            fish.setFishWeight(Float.parseFloat(fishWeightText.getText().toString()));
+
+            if (isMetricUnit == true) {
+
+                fish.setFishWeight(Float.parseFloat(fishWeightText.getText().toString()));
+
+            } else {
+
+                if (fishWeightTextImp.getText().toString().equals("") == true) {
+
+                    fishWeightTextImp.setText("0");
+
+                }
+                // convert to metric
+                float weight = Float.parseFloat(fishWeightText.getText().toString()) * BaseActivity.POUND_TO_KG
+                        + Float.parseFloat(fishWeightTextImp.getText().toString()) * BaseActivity.OUNCE_TO_KG;
+
+                fish.setFishWeight(weight);
+            }
         }
         if (fishLengthText.getText().toString().equals("") != true) {
-        fish.setFishLength(Float.parseFloat(fishLengthText.getText().toString()));
+
+            float length = 0;
+            if (isMetricUnit == true) {
+                length = Float.parseFloat(fishLengthText.getText().toString()) * BaseActivity.CM_TO_METRES;
+            } else {
+                length = Float.parseFloat(fishLengthText.getText().toString()) * BaseActivity.INCH_TO_METRES;
+            }
+            fish.setFishLength(length);
         }
 
         fish.setBait(fishBaitText.getText().toString());
@@ -401,14 +457,6 @@ public class AddRecordFragment extends SherlockFragment implements
         }
         return mediaFile;
     }
-
-//    private String getMeasurementUnit() {
-//
-//        if (((MainActivity)getSherlockActivity()).isMetricUnit() == true) {
-//
-//        }
-//
-//    }
 
     public static int calculateInSampleSize (BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
