@@ -21,7 +21,7 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "fishingdata";
     private static final String FTS_TABLE_FISH = "fts_fish";
 
-    public static final String KEY_ID = "_id";
+    public static final String KEY_ID = "rowid";
     public static final String KEY_FISH_NAME = "fish_name";
     public static final String KEY_TIMESTAMP = "timestamp";
     public static final String KEY_GPS_LAT = "latitude";
@@ -36,8 +36,8 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_FISH_TABLE =
             "CREATE VIRTUAL TABLE " + FTS_TABLE_FISH + " USING fts3 (" +
-                    KEY_ID + " INTEGER PRIMARY KEY," +  //id
-                    KEY_FISH_NAME + " TEXT,"    +
+//                    KEY_ID + " INTEGER PRIMARY KEY," +  //id
+                    KEY_FISH_NAME + " TEXT,"    +           // fish species
                     KEY_TIMESTAMP + " INTEGER," +          //timestamp
                     KEY_GPS_LAT + " FLOAT," +            //latitude
                     KEY_GPS_LONG + " FLOAT," +           //longitude
@@ -89,18 +89,18 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, fish.getId());
-        values.put(KEY_FISH_NAME, fish.getFishName());
-        values.put(KEY_TIMESTAMP, fish.getTimeStamp());
-        values.put(KEY_GPS_LAT, fish.getLatitude());
-        values.put(KEY_GPS_LONG, fish.getLongitude());
+//        values.put(KEY_ID, fish.getId());
+        values.put(KEY_FISH_NAME, fish.getFishName());  //0
+        values.put(KEY_TIMESTAMP, fish.getTimeStamp()); //1
+        values.put(KEY_GPS_LAT, fish.getLatitude());    //2
+        values.put(KEY_GPS_LONG, fish.getLongitude());  //3
 //        values.put(KEY_ANGLER, fish.getAngler());
-        values.put(KEY_FISH_LENGTH, fish.getFishLength());
-        values.put(KEY_FISH_WEIGHT, fish.getFishWeight());
-        values.put(KEY_BAIT, fish.getBait());
+        values.put(KEY_FISH_LENGTH, fish.getFishLength());  //4
+        values.put(KEY_FISH_WEIGHT, fish.getFishWeight());  //5
+        values.put(KEY_BAIT, fish.getBait());           //6
         // Use the ImgPath to retrieve photo
-        values.put(KEY_PHOTO, fish.getImgByteArray());
-        values.put(KEY_NOTE, fish.getNote());
+        values.put(KEY_PHOTO, fish.getImgByteArray());  //7
+        values.put(KEY_NOTE, fish.getNote());           //8
 
         db.insert(FTS_TABLE_FISH, null, values);
         db.close();
@@ -123,13 +123,19 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
 
              cursor.moveToFirst();
 
-            //TODO check cursor.getString(8)
-            fish = new Fish (Integer.parseInt(cursor.getString(0)), cursor.getString(1), Integer.parseInt(cursor.getString(2)),
-                    Float.parseFloat(cursor.getString(3)), Float.parseFloat(cursor.getString(4)),
+            // check cursor.getString(8)
+            fish = new Fish (
+            //Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(0),
+                    Long.parseLong(cursor.getString(1)),
+                    Float.parseFloat(cursor.getString(2)),
+                    Float.parseFloat(cursor.getString(3)),
 //                    cursor.getString(4),
+                    Float.parseFloat(cursor.getString(4)),
                     Float.parseFloat(cursor.getString(5)),
-                    Float.parseFloat(cursor.getString(6)), cursor.getString(7),
-                    cursor.getBlob(8), cursor.getString(9));
+                    cursor.getString(6),
+                    cursor.getBlob(7),
+                    cursor.getString(8));
 
         } catch (NullPointerException npe) {
             // Cursor is null
@@ -156,18 +162,18 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst() == true) {
             do {
                 Fish fish = new Fish();
-                fish.setId(Integer.parseInt(cursor.getString(0)));
-                fish.setFishName(cursor.getString(1));
-                fish.setTimeStamp(Long.parseLong(cursor.getString(2)));
-                fish.setLatitude(Float.parseFloat(cursor.getString(3)));
-                fish.setLongitude(Float.parseFloat(cursor.getString(4)));
+//                fish.setId(Integer.parseInt(cursor.getString(0)));
+                fish.setFishName(cursor.getString(0));
+                fish.setTimeStamp(Long.parseLong(cursor.getString(1)));
+                fish.setLatitude(Float.parseFloat(cursor.getString(2)));
+                fish.setLongitude(Float.parseFloat(cursor.getString(3)));
 //                fish.setAngler(cursor.getString(4));
-                fish.setFishLength(Float.parseFloat(cursor.getString(5)));
-                fish.setFishWeight(Float.parseFloat(cursor.getString(6)));
-                fish.setBait(cursor.getString(7));
+                fish.setFishLength(Float.parseFloat(cursor.getString(4)));
+                fish.setFishWeight(Float.parseFloat(cursor.getString(5)));
+                fish.setBait(cursor.getString(6));
                 // Fix the Image issue
-                fish.setImgByteArray(cursor.getBlob(8));
-                fish.setNote(cursor.getString(9));
+                fish.setImgByteArray(cursor.getBlob(7));
+                fish.setNote(cursor.getString(8));
 
                 fishList.add(fish);
             } while (cursor.moveToNext() == true);
@@ -193,11 +199,12 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Update
+     *
      * @param fish
+     * @param id id of this fish, usually from db
      * @return
      */
-    public int updateFish(Fish fish) {
+    public int updateFish(Fish fish, int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -214,7 +221,7 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
         values.put(KEY_PHOTO, fish.getImgByteArray());
         values.put(KEY_NOTE, fish.getNote());
 
-        int result = db.update(FTS_TABLE_FISH, values, KEY_ID + " = " + fish.getId(), null);
+        int result = db.update(FTS_TABLE_FISH, values, KEY_ID + " = " + id, null);
 
         return result;
     }
@@ -222,11 +229,12 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
     /**
      * Delete
      * @param fish
+     * @param id
      */
-    public void deleteFish(Fish fish) {
+    public void deleteFish(Fish fish, int id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.delete(FTS_TABLE_FISH, KEY_ID + "=" + fish.getId(), null);
+        db.delete(FTS_TABLE_FISH, KEY_ID + "=" + id, null);
 
         db.close();
 

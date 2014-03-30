@@ -58,20 +58,21 @@ public class CardStyleAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        View view = convertView;
 
-        if (convertView == null) {
+        if (view == null) {
 
-            convertView = inflater.inflate(layout, parent, false);
+            view = inflater.inflate(layout, parent, false);
             holder = new FishViewHolder();
 
-            holder.title = (TextView) convertView.findViewById(R.id.textView_cell_title);
-            holder.descr = (TextView) convertView.findViewById(R.id.textView_cell_descr);
-            holder.img = (ImageView) convertView.findViewById(R.id.imageView_fishImg);
+            holder.title = (TextView) view.findViewById(R.id.textView_cell_title);
+            holder.descr = (TextView) view.findViewById(R.id.textView_cell_descr);
+            holder.img = (ImageView) view.findViewById(R.id.imageView_fishImg);
 
-            convertView.setTag(holder);
+            view.setTag(holder);
 
         } else {
-            holder = (FishViewHolder)convertView.getTag();
+            holder = (FishViewHolder)view.getTag();
         }
 
         Fish fish = (Fish)list.get(position);
@@ -87,7 +88,7 @@ public class CardStyleAdapter extends ArrayAdapter {
 //        }
         imageLoader.displayImage("db://" + position, holder.img, options);
 
-        return convertView;
+        return view;
     }
 
 //    private class LoadThumbnailToList extends AsyncTask<byte[], Void, Bitmap> {
