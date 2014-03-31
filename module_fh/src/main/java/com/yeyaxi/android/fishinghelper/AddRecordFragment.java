@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +37,7 @@ import java.util.Locale;
  */
 public class AddRecordFragment extends SherlockFragment implements
         GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener,
-        MainActivity.OnCheckBoxCheckedListener {
+        GooglePlayServicesClient.OnConnectionFailedListener {
 
     private static final String TAG = AddRecordFragment.class.getSimpleName();
 
@@ -92,11 +92,14 @@ public class AddRecordFragment extends SherlockFragment implements
         doneButton.setOnClickListener(onClickListener);
         fishImage.setOnClickListener(onClickListener);
 
-//        isMetricUnit = ((MainActivity)getSherlockActivity()).isMetricUnit();
-
-
         // invoke the location manager
         locationClient = new LocationClient(getSherlockActivity(), this, this);
+
+        // Lock the navigation drawer
+        ((MainActivity)getSherlockActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        ((MainActivity)getSherlockActivity()).mDrawerToggle.setDrawerIndicatorEnabled(false);
+        getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(false);
 
         return view;
     }
@@ -119,29 +122,6 @@ public class AddRecordFragment extends SherlockFragment implements
 
         }
     };
-
-    @Override
-    public void onCheckBoxChecked(int id) {
-        switch (id) {
-
-            case R.id.radioButton_imp:
-
-                // enable the input of imperial unit
-                fishWeightTextImp.setVisibility(View.VISIBLE);
-                fishWeightText.setHint("Fish Weight(lbs)");
-                fishLengthText.setHint("Fish Length(inch)");
-                isMetricUnit = false;
-                break;
-
-            case R.id.radioButton_metric:
-
-                fishWeightTextImp.setVisibility(View.GONE);
-                fishWeightText.setHint("Fish Weight(kg)");
-                fishLengthText.setHint("Fish Length(cm)");
-                isMetricUnit = true;
-                break;
-        }
-    }
 
     /**
      * Called by Location Services when the request to connect the
@@ -239,6 +219,20 @@ public class AddRecordFragment extends SherlockFragment implements
 
         doneButton.setVisibility(View.VISIBLE);
 
+        if (BaseActivity.isMetricUnit == false) {
+            // enable the input of imperial unit
+            fishWeightTextImp.setVisibility(View.VISIBLE);
+            fishWeightText.setHint("Fish Weight(lbs)");
+            fishLengthText.setHint("Fish Length(inch)");
+            isMetricUnit = false;
+        } else {
+            // enable the input of metric unit
+            fishWeightTextImp.setVisibility(View.GONE);
+            fishWeightText.setHint("Fish Weight(kg)");
+            fishLengthText.setHint("Fish Length(cm)");
+            isMetricUnit = true;
+        }
+
     }
 
     @Override
@@ -262,7 +256,9 @@ public class AddRecordFragment extends SherlockFragment implements
 
         @Override
         protected void onPostExecute(Bitmap bm) {
+            //TODO maybe set centre crop??
             fishImage.setImageBitmap(bm);
+            fishImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     };
 
@@ -360,6 +356,13 @@ public class AddRecordFragment extends SherlockFragment implements
      * will switch to main record list
      */
     private void switchToMain() {
+
+        // unlock the navigation drawer
+        ((MainActivity)getSherlockActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        ((MainActivity)getSherlockActivity()).mDrawerToggle.setDrawerIndicatorEnabled(true);
+        getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(false);
+
         getSherlockActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content_frame, new MainFragment(), "MainFragment")

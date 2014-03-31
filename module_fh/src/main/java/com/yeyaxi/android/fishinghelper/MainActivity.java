@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private DrawerLayout mDrawerLayout;
+    public DrawerLayout mDrawerLayout;
     private View mSwitchView;
 //    private View mainView;
 
@@ -30,11 +30,9 @@ public class MainActivity extends BaseActivity {
 
 //    private Button addRecordButton;
 
-    private ActionBarDrawerToggle mDrawerToggle;
+    public ActionBarDrawerToggle mDrawerToggle;
 
     private boolean isMetricUnit = false;
-
-    private OnCheckBoxCheckedListener listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +68,15 @@ public class MainActivity extends BaseActivity {
                 // Set the title on the action when drawer open
                 getSupportActionBar().setTitle("Options");
                 super.onDrawerOpened(drawerView);
+
+                if (isNewerThanKitKat() == true) {
+                    // patch the status & navigation bar tint
+                    SystemBarTintManager tintManager = new SystemBarTintManager(MainActivity.this);
+                    SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
+
+                    drawerView.setPadding(0, config.getPixelInsetTop(true),
+                            config.getPixelInsetRight(), config.getPixelInsetBottom());
+                }
             }
         };
 
@@ -78,16 +85,6 @@ public class MainActivity extends BaseActivity {
         radioImperial = (RadioButton) mSwitchView.findViewById(R.id.radioButton_imp);
         radioMetric = (RadioButton) mSwitchView.findViewById(R.id.radioButton_metric);
         radioUnit = (RadioGroup) mSwitchView.findViewById(R.id.radioGroup_unit);
-//        if (checkBoxImperial.isChecked() == true) {
-//
-//        }
-//
-//        if (checkBoxMetric.isChecked() == true) {
-//            checkBoxImperial.setChecked(false);
-//            isMetricUnit = true;
-//        }
-
-        listener = (OnCheckBoxCheckedListener)(getSupportFragmentManager().findFragmentByTag("AddRecordFragment"));
 
         radioUnit.setOnCheckedChangeListener(checkedChangeListener);
 
@@ -110,21 +107,18 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-//            switch (checkedId) {
-//                case R.id.radioButton_metric:
-//                    radioImperial.setChecked(false);
-//                    isMetricUnit = true;
-//                    break;
-//                case R.id.radioButton_imp:
-//                    radioMetric.setChecked(false);
-//                    isMetricUnit = false;
-//                    break;
-//            }
+
             Log.d(TAG, "" + checkedId);
 
-            if (listener != null) {
-                listener.onCheckBoxChecked(checkedId);
+            switch (checkedId) {
+                case R.id.radioButton_metric:
+                    BaseActivity.isMetricUnit = true;
+                    break;
+                case R.id.radioButton_imp:
+                    BaseActivity.isMetricUnit = false;
+                    break;
             }
+
         }
     };
 
@@ -182,13 +176,5 @@ public class MainActivity extends BaseActivity {
         } else {
             return false;
         }
-    }
-
-//    public boolean isMetricUnit() {
-//        return isMetricUnit;
-//    }
-
-    public interface OnCheckBoxCheckedListener {
-        public void onCheckBoxChecked(int viewId);
     }
 }

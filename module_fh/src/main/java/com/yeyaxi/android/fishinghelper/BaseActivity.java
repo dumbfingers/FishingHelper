@@ -27,6 +27,7 @@ public class BaseActivity extends SherlockFragmentActivity {
     public static final float INCH_TO_METRES = 0.025f;
     public static final float CM_TO_METRES = 0.01f;
 
+    public static boolean isMetricUnit = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
