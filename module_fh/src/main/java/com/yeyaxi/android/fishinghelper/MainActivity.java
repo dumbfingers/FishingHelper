@@ -10,7 +10,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.actionbarsherlock.view.MenuItem;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * @author yaxi
@@ -68,14 +67,14 @@ public class MainActivity extends BaseActivity {
                 getSupportActionBar().setTitle("Options");
                 super.onDrawerOpened(drawerView);
 
-                if (isNewerThanKitKat() == true) {
-                    // patch the status & navigation bar tint
-                    SystemBarTintManager tintManager = new SystemBarTintManager(MainActivity.this);
-                    SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
-
-                    drawerView.setPadding(0, config.getPixelInsetTop(true),
-                            config.getPixelInsetRight(), config.getPixelInsetBottom());
-                }
+//                if (isNewerThanKitKat() == true) {
+//                    // patch the status & navigation bar tint
+//                    SystemBarTintManager tintManager = new SystemBarTintManager(MainActivity.this);
+//                    SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
+//
+//                    drawerView.setPadding(0, config.getPixelInsetTop(true),
+//                            config.getPixelInsetRight(), config.getPixelInsetBottom());
+//                }
             }
         };
 
@@ -88,15 +87,15 @@ public class MainActivity extends BaseActivity {
         radioUnit.setOnCheckedChangeListener(checkedChangeListener);
 
         // set the tint of actionbar and navigation bar
-        if (isNewerThanKitKat() == true) {
-            // set tint
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(getResources().getColor(R.color.action_bar_tint));
-
-            tintManager.setNavigationBarTintEnabled(true);
-            tintManager.setNavigationBarTintColor(getResources().getColor(R.color.navigation_bar_tint));
-        }
+//        if (isNewerThanKitKat() == true) {
+//            // set tint
+//            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+//            tintManager.setStatusBarTintEnabled(true);
+//            tintManager.setStatusBarTintColor(getResources().getColor(R.color.action_bar_tint));
+//
+//            tintManager.setNavigationBarTintEnabled(true);
+//            tintManager.setNavigationBarTintColor(getResources().getColor(R.color.navigation_bar_tint));
+//        }
     }
 
 
@@ -163,6 +162,12 @@ public class MainActivity extends BaseActivity {
                     .beginTransaction()
                     .replace(R.id.content_frame, new MainFragment(), "MainFragment")
                     .commit();
+
+              // unlock the navigation drawer
+              mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+              mDrawerToggle.setDrawerIndicatorEnabled(true);
+              getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+              getSupportActionBar().setHomeButtonEnabled(true);
 
         }
 

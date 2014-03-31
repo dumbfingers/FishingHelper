@@ -361,7 +361,7 @@ public class AddRecordFragment extends SherlockFragment implements
         ((MainActivity)getSherlockActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         ((MainActivity)getSherlockActivity()).mDrawerToggle.setDrawerIndicatorEnabled(true);
         getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(false);
+        getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(true);
 
         getSherlockActivity().getSupportFragmentManager()
                 .beginTransaction()

@@ -2,134 +2,138 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="false"
     android:background="@android:color/background_light">
 
-    <RelativeLayout
-        android:orientation="vertical"
+    <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <EditText
+        <ImageView
+            android:id="@+id/img_fish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:background="@drawable/image_button_selector"
+            android:clickable="true"
+            android:maxHeight="184dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_action_camera" />
+
+        <EditText
             android:id="@+id/text_timestamp"
-            android:hint="Timestamp"
-            android:drawableLeft="@drawable/ic_action_time"
-            android:inputType="datetime"
-            android:layout_below="@+id/img_fish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_below="@+id/img_fish"
+            android:drawableLeft="@drawable/ic_action_time"
             android:editable="false"
-            android:enabled="false"/>
+            android:ems="10"
+            android:enabled="false"
+            android:hint="Timestamp"
+            android:inputType="datetime"/>
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Fish Species"
-            android:ems="10"
             android:id="@+id/text_fishname"
-            android:layout_alignParentStart="true"
-            android:minHeight="48dp"
-            android:layout_below="@+id/text_timestamp"
-            android:layout_alignParentLeft="true" />
-
-        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text_timestamp"
             android:ems="10"
-            android:drawableLeft="@drawable/ic_action_map"
-            android:drawablePadding="4dp"
+            android:hint="Fish Species"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+
+        <EditText
             android:id="@+id/text_location"
-            android:hint="Latitude/Longitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/text_fishname"
-            android:layout_alignParentLeft="true" />
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_action_map"
+            android:drawablePadding="4dp"
+            android:editable="false"
+            android:ems="10"
+            android:hint="Latitude/Longitude"
+            android:inputType="numberDecimal" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/text_location">
+            android:layout_below="@+id/text_location"
+            android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/text_fishweight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_weight="1"
-                android:id="@+id/text_fishweight"
-                android:minHeight="48dp"
-                android:hint="Fish Weight"
                 android:drawableLeft="@drawable/ic_scale"
                 android:drawablePadding="4dp"
-                android:layout_alignParentLeft="true"
-                android:inputType="numberDecimal" />
+                android:hint="Fish Weight"
+                android:inputType="numberDecimal"
+                android:minHeight="48dp" />
 
             <EditText
+                android:id="@+id/text_imperial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="(oz)"
                 android:inputType="numberDecimal"
                 android:minHeight="48dp"
-                android:hint="(oz)"
-                android:id="@+id/text_imperial"
                 android:visibility="gone"/>
         </LinearLayout>
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/text_fishlength"
-            android:drawablePadding="4dp"
-            android:minHeight="48dp"
-            android:drawableLeft="@drawable/ic_ruler"
-            android:hint="Fish Length"
-            android:layout_below="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:inputType="numberDecimal" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_bait"
-            android:minHeight="48dp"
-            android:hint="Bait"
-            android:layout_below="@+id/text_fishlength"
-            android:layout_alignParentLeft="true" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/img_fish"
-            android:src="@drawable/ic_action_camera"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentStart="true"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:clickable="true"
-            android:maxHeight="184dp"
-            android:layout_centerHorizontal="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:minHeight="48dp"
-            android:id="@+id/text_note"
-            android:hint="Notes"
-            android:drawableLeft="@drawable/ic_action_edit"
-            android:layout_alignParentStart="true"
+            android:layout_below="@+id/linearLayout"
+            android:drawableLeft="@drawable/ic_ruler"
             android:drawablePadding="4dp"
+            android:hint="Fish Length"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+        <EditText
+            android:id="@+id/text_bait"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/text_fishlength"
+            android:hint="Bait"
+            android:minHeight="48dp" />
+
+
+        <EditText
+            android:id="@+id/text_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/text_bait"
-            android:layout_alignParentLeft="true" />
+            android:drawableLeft="@drawable/ic_action_edit"
+            android:drawablePadding="4dp"
+            android:ems="10"
+            android:hint="Notes"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

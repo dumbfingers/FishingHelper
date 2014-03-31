@@ -5,51 +5,49 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#eeeeee"
-        android:fitsSystemWindows="true"
-        android:clipToPadding="false">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:padding="@dimen/activity_horizontal_margin"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@android:drawable/divider_horizontal_textfield"
-            android:showDividers="middle"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
+            android:divider="@android:drawable/divider_horizontal_textfield"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:showDividers="middle">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Units"
                 android:id="@+id/textView"
                 style="?android:attr/listSeparatorTextViewStyle"
-                android:gravity="center_vertical" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Units"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <RadioGroup
+                android:id="@+id/radioGroup_unit"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:paddingTop="6dp"
                 android:orientation="vertical"
-                android:id="@+id/radioGroup_unit">
+                android:paddingTop="6dp">
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Metric (centimetre, kilogram)"
                     android:id="@+id/radioButton_metric"
-                    android:checked="true"/>
-
-                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Imperial (inch, foot, pound, ounce)"
-                    android:id="@+id/radioButton_imp" />
+                    android:checked="true"
+                    android:text="Metric (centimetre, kilogram)"/>
+
+                <RadioButton
+                    android:id="@+id/radioButton_imp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Imperial (inch, foot, pound, ounce)" />
             </RadioGroup>
 
 
