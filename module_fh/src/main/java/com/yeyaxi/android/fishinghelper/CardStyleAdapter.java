@@ -1,6 +1,7 @@
 package com.yeyaxi.android.fishinghelper;
 
 import android.content.Context;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ public class CardStyleAdapter extends ArrayAdapter {
     private FishViewHolder holder = null;
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
+
+    private SparseBooleanArray mSelectedItems = new SparseBooleanArray();
 
     public CardStyleAdapter(Context context, int layout, List list) {
         super(context, layout, list);
@@ -78,114 +81,43 @@ public class CardStyleAdapter extends ArrayAdapter {
         Fish fish = (Fish)list.get(position);
         holder.title.setText(fish.getFishName());
 
-//        reqWidth = holder.img.getWidth();
-//        reqHeight = holder.img.getHeight();
-
-//        if (fish.getImgByteArray() != null) {
-//            holder.img.setImageBitmap(decodeThumbnailFromBlob(
-//                    fish.getImgByteArray(), holder.img.getWidth(), holder.img.getHeight()));
-////            new LoadThumbnailToList().execute(fish.getImgByteArray());
-//        }
         imageLoader.displayImage("db://" + position, holder.img, options);
+
+        // set for the selected colour
+        view.setBackgroundResource(mSelectedItems.get(position) ?
+                R.color.selected_overlay : android.R.color.transparent);
 
         return view;
     }
 
-//    private class LoadThumbnailToList extends AsyncTask<byte[], Void, Bitmap> {
-//        @Override
-//        protected Bitmap doInBackground(byte[]... params) {
-//            Bitmap bitmap = decodeThumbnailFromBlob(
-//                    params[0], holder.img.getWidth(), holder.img.getHeight());
-//            return bitmap;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Bitmap bm) {
-//            holder.img.setImageBitmap(bm);
-//        }
-//    }
-//    AsyncTask<byte[], Void, Bitmap> loadThumbnailToList = new AsyncTask<byte[], Void, Bitmap>() {
-//        @Override
-//        protected Bitmap doInBackground(byte[]... params) {
-//            Bitmap bitmap = decodeThumbnailFromBlob(
-//                    params[0], holder.img.getWidth(), holder.img.getHeight());
-//            return bitmap;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Bitmap bm) {
-//            holder.img.setImageBitmap(bm);
-//        }
-//    };
-//
-//    private Bitmap decodeThumbnailFromBlob(byte[] imgBytes, int reqWidth, int reqHeight) {
-//
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inJustDecodeBounds = true;
-//        BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, options);
-//
-//        options.inSampleSize = AddRecordFragment.calculateInSampleSize(options, reqWidth, reqHeight);
-//
-//        options.inJustDecodeBounds = false;
-//
-//        return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, options);
-//    }
+
 
     static class FishViewHolder {
         TextView title;
         TextView descr;
         ImageView img;
     }
-//    @Override
-//    public View newView (Context context, Cursor cursor, ViewGroup parent) {
-//        View v = inflater.inflate(R.layout.cell_listview, parent, false);
-//        return v;
-//    }
 
-//    @Override
-//    public void bindView(View view, Context context, Cursor cursor) {
-//        super.bindView(view, context, cursor);
-//
-//        // get data from db and set to the UI
-//        long timestamp = cursor.getLong(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_TIMESTAMP));
-//
-//        String name = cursor.getString(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_FISH_NAME));
-//
-//        float latitude = cursor.getFloat(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_GPS_LAT));
-//
-//        float longitude = cursor.getFloat(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_GPS_LONG));
-//
-////        String angler = cursor.getString(
-////                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_ANGLER));
-//
-//        //length
-//        float length = cursor.getFloat(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_FISH_LENGTH));
-//
-//        //weight
-//        float weight = cursor.getFloat(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_FISH_WEIGHT));
-//        //bait
-//        String bait = cursor.getString(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_BAIT));
-//
-//        //img
-//        // image path string, so we can set up to load image
-//        byte[] imgByteArray = cursor.getBlob(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_PHOTO));
-//
-//        //note
-//        String note = cursor.getString(
-//                cursor.getColumnIndexOrThrow(FishingDataOpenHelper.KEY_NOTE));
-//
-//        TextView title = (TextView) view.findViewById(R.id.textView_cell_title);
-//        TextView descr = (TextView) view.findViewById(R.id.textView_cell_descr);
-//
-//        // set photo
-//        ImageView imgView = (ImageView) view.findViewById(R.id.imageView_fishImg);
-//    }
+
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItems.get(position));
+    }
+
+    public void removeSelection() {
+        mSelectedItems = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+    public void selectView(int position, boolean selected) {
+        if (selected == true)
+            mSelectedItems.put(position, selected);
+        else
+            mSelectedItems.delete(position);
+
+        notifyDataSetChanged();
+    }
+
+    public SparseBooleanArray getSelectedItems() {
+        return mSelectedItems;
+    }
 }

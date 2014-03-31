@@ -33,7 +33,7 @@ public class SQLiteImageLoader extends BaseImageDownloader {
             Fish fish = db.getFish(Integer.parseInt(path) + 1);
             byte[] imageData = fish.getImgByteArray();
 
-            Log.d(TAG, path + ", " + fish.getFishName() + ", " + imageData);
+//            Log.d(TAG, path + ", " + fish.getFishName() + ", " + imageData);
 
             return new ByteArrayInputStream(imageData);
         } else {

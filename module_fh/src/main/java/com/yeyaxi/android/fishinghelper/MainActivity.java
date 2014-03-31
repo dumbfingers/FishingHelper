@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -107,8 +106,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-
-            Log.d(TAG, "" + checkedId);
+//            Log.d(TAG, "" + checkedId);
 
             switch (checkedId) {
                 case R.id.radioButton_metric:

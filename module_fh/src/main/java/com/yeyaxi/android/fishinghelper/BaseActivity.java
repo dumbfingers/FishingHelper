@@ -14,6 +14,7 @@ package com.yeyaxi.android.fishinghelper;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 
 import com.actionbarsherlock.app.ActionBar.LayoutParams;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -31,6 +32,9 @@ public class BaseActivity extends SherlockFragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+
         super.onCreate(savedInstanceState);
 
         View customView = getLayoutInflater().inflate(R.layout.layout_actionbar, null);
@@ -44,6 +48,7 @@ public class BaseActivity extends SherlockFragmentActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
+
 //        getSupportActionBar().setTitle("<Your Title Here>");
 
     }

@@ -29,11 +29,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="Add"
         android:drawableLeft="@drawable/ic_action_new_light"
         android:id="@+id/button_new_record"
         style="@style/Widget.Sherlock.Light.ActionButton"
         android:layout_gravity="center"
+        android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -42,9 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Done"
+        android:drawableLeft="@drawable/ic_action_accept"
         android:textStyle="bold"
         android:layout_gravity="center_vertical"
         android:visibility="gone"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@android:color/white"
         style="@style/Widget.Sherlock.ActionButton"/>
 </LinearLayout>

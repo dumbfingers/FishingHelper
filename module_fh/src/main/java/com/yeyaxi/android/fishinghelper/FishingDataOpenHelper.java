@@ -228,13 +228,14 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
 
     /**
      * Delete
-     * @param fish
      * @param id
      */
-    public void deleteFish(Fish fish, int id) {
+    public void deleteFish(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.delete(FTS_TABLE_FISH, KEY_ID + "=" + id, null);
+        int rowsDeleted = db.delete(FTS_TABLE_FISH, KEY_ID + "=" + id, null);
+
+        Log.d(TAG, "Rows deleted: " + rowsDeleted);
 
         db.close();
 
