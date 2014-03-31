@@ -165,6 +165,8 @@ public class MainFragment extends SherlockFragment {
 
             Log.d(TAG, "Test delete function: " + adapter.getSelectedItems());
             popAlertDialog();
+            db.rebuildDb();
+            adapter.notifyDataSetChanged();
             mode.finish();
             return true;
         }
@@ -173,7 +175,7 @@ public class MainFragment extends SherlockFragment {
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             isLongPressed = false;
-            adapter.removeSelection();
+//            adapter.removeSelection();
 
         }
     };
@@ -189,15 +191,17 @@ public class MainFragment extends SherlockFragment {
                 for (int i = 0; i < adapter.getSelectedItems().size(); i++) {
                     db.deleteFish(i + 1);
                 }
+                adapter.removeSelection();
             }
         });
         builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                adapter.removeSelection();
             }
         });
-        builder.show();
+        builder.create().show();
     }
 
 //    AsyncTask<SparseBooleanArray, Void, Void> deleteItemsFromDbTask = new AsyncTask<SparseBooleanArray, Void, Void>() {

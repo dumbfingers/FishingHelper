@@ -241,4 +241,11 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    public void rebuildDb() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Do a db rebuild to eliminate the fragments
+        db.execSQL("VACUUM");
+        db.close();
+    }
+
 }
