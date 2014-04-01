@@ -81,7 +81,7 @@ public class CardStyleAdapter extends ArrayAdapter {
         Fish fish = (Fish)list.get(position);
         holder.title.setText(fish.getFishName());
 
-        imageLoader.displayImage("db://" + position, holder.img, options);
+        imageLoader.displayImage("db://" + fish.getTimeStamp(), holder.img, options);
 
         // set for the selected colour
         view.setBackgroundResource(mSelectedItems.get(position) ?

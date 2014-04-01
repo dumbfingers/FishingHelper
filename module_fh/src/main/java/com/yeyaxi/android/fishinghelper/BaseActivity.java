@@ -23,11 +23,16 @@ public class BaseActivity extends SherlockFragmentActivity {
 
     // unit conversions
     public static final float POUND_TO_KG = 0.453f;
+    public static final float KG_TO_POUND = 2.205f;
     public static final float OUNCE_TO_KG = 0.028f;
+    public static final float POUND_TO_OUNCE = 16f;
     public static final float INCH_TO_METRES = 0.025f;
+    public static final float METRES_TO_INCH = 39.370f;
     public static final float CM_TO_METRES = 0.01f;
 
     public static boolean isMetricUnit = true;
+
+    private static long timeStampOfView = 0l;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,12 @@ public class BaseActivity extends SherlockFragmentActivity {
 
     }
 
+    public static void setTimeStampOfView(long timestamp) {
+        timeStampOfView = timestamp;
+    }
 
+    public static long getTimeStampOfView() {
+        return timeStampOfView;
+    }
 
 }

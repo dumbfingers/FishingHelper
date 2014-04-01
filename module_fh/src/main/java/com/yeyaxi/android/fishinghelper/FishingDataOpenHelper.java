@@ -21,7 +21,7 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "fishingdata";
     private static final String FTS_TABLE_FISH = "fts_fish";
 
-    public static final String KEY_ID = "rowid";
+//    public static final String KEY_ID = "rowid";
     public static final String KEY_FISH_NAME = "fish_name";
     public static final String KEY_TIMESTAMP = "timestamp";
     public static final String KEY_GPS_LAT = "latitude";
@@ -108,16 +108,16 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
 
     /**
      * Read
-     * @param id
+     * @param timestamp
      * @return
      */
-    public Fish getFish(int id) {
+    public Fish getFish(Long timestamp) {
         SQLiteDatabase db = this.getReadableDatabase();
         Fish fish = null;
 
         // SELECT * FROM TABLE_FISH WHERE KEY_ID=id;
         Cursor cursor = db.query(
-                FTS_TABLE_FISH, null, KEY_ID + "=" + String.valueOf(id), null, null, null, null);
+                FTS_TABLE_FISH, null, KEY_TIMESTAMP + "=" + String.valueOf(timestamp), null, null, null, null);
 
         try {
 
@@ -201,10 +201,10 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
     /**
      *
      * @param fish
-     * @param id id of this fish, usually from db
+     * @param timestamp timestamp of this fish used as unique id
      * @return
      */
-    public int updateFish(Fish fish, int id) {
+    public int updateFish(Fish fish, long timestamp) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -221,21 +221,22 @@ public class FishingDataOpenHelper extends SQLiteOpenHelper {
         values.put(KEY_PHOTO, fish.getImgByteArray());
         values.put(KEY_NOTE, fish.getNote());
 
-        int result = db.update(FTS_TABLE_FISH, values, KEY_ID + " = " + id, null);
+        int result = db.update(FTS_TABLE_FISH, values, KEY_TIMESTAMP + " = " + timestamp, null);
 
         return result;
     }
 
     /**
-     * Delete
-     * @param id
+     * Delete using timestamp as unique id
+     * @param timestamp
      */
-    public void deleteFish(int id) {
+    public void deleteFish(long timestamp) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        int rowsDeleted = db.delete(FTS_TABLE_FISH, KEY_ID + "=" + id, null);
+        int rowsDeleted = db.delete(FTS_TABLE_FISH, KEY_TIMESTAMP + "=" + timestamp, null);
 
-        Log.d(TAG, "Rows deleted: " + rowsDeleted);
+        Log.d(TAG, "SQL Operation: DELETE FROM " + FTS_TABLE_FISH + " WHERE " + KEY_TIMESTAMP + "=" + timestamp
+                + "\nRows deleted: " + rowsDeleted);
 
         db.close();
 

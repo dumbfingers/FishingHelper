@@ -39,6 +39,7 @@ public class MainFragment extends SherlockFragment {
 
     private static CardStyleAdapter adapter;
 
+    private ArrayList<Long> selectedList = new ArrayList<Long>();
 //    @Override
 //    public void onCreate() {
 //
@@ -66,7 +67,7 @@ public class MainFragment extends SherlockFragment {
                         .beginTransaction()
                         .replace(R.id.content_frame, new AddRecordFragment(), "AddRecordFragment")
                         .commit();
-                addRecordButton.setVisibility(View.GONE);
+//                addRecordButton.setVisibility(View.GONE);
             }
         });
 
@@ -75,12 +76,18 @@ public class MainFragment extends SherlockFragment {
     }
 
 
+    @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        addRecordButton.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -134,7 +141,16 @@ public class MainFragment extends SherlockFragment {
             if (isLongPressed == true) {
                 selectItems(position);
             } else {
-                //TODO launch detail view
+                // launch detail view
+                // first set the timestamp so that we can find which fish to be displayed
+                Fish fish = (Fish) parent.getItemAtPosition(position);
+                BaseActivity.setTimeStampOfView(fish.getTimeStamp());
+                // launch the detailed view
+                getSherlockActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_frame, new ViewRecordFragment(), "ViewRecordFragment")
+                        .commit();
+//                addRecordButton.setVisibility(View.GONE);
             }
         }
     };
@@ -163,10 +179,8 @@ public class MainFragment extends SherlockFragment {
 
             //TODO call database to delete the selected items
 
-            Log.d(TAG, "Test delete function: " + adapter.getSelectedItems());
+            Log.d(TAG, "delete function: " + adapter.getSelectedItems());
             popAlertDialog();
-            db.rebuildDb();
-            adapter.notifyDataSetChanged();
             mode.finish();
             return true;
         }
@@ -189,9 +203,19 @@ public class MainFragment extends SherlockFragment {
             public void onClick(DialogInterface dialog, int which) {
 //                deleteItemsFromDbTask.execute(adapter.getSelectedItems());
                 for (int i = 0; i < adapter.getSelectedItems().size(); i++) {
-                    db.deleteFish(i + 1);
+//                    db.deleteFish(i + 1);
+                    int key = adapter.getSelectedItems().keyAt(i);
+                    long timestamp = ((Fish) adapter.getItem(key)).getTimeStamp();
+                    db.deleteFish(timestamp);
                 }
                 adapter.removeSelection();
+//                adapter.notifyDataSetChanged();
+                db.rebuildDb();
+                adapter = new CardStyleAdapter(
+                        getSherlockActivity(), R.layout.cell_listview, db.getAllFish());
+
+                adapter.notifyDataSetChanged();
+                listView.setAdapter(adapter);
             }
         });
         builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {

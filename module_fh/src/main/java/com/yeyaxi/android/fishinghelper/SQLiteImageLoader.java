@@ -25,12 +25,12 @@ public class SQLiteImageLoader extends BaseImageDownloader {
     @Override
     protected InputStream getStreamFromOtherSource(String imageUri, Object extra) throws IOException {
         if (imageUri.startsWith(DB_URI_PREFIX)) {
-            String path = imageUri.substring(DB_URI_PREFIX.length());
-            Log.d(TAG, path);
+            Long timestamp = Long.parseLong(imageUri.substring(DB_URI_PREFIX.length()));
+            Log.d(TAG, "Display fish pic with timestamp: " + timestamp);
             // Your logic to retreive needed data from DB
             FishingDataOpenHelper db = new FishingDataOpenHelper(context);
             // rowid in database starts from 1
-            Fish fish = db.getFish(Integer.parseInt(path) + 1);
+            Fish fish = db.getFish(timestamp);
             byte[] imageData = fish.getImgByteArray();
 
 //            Log.d(TAG, path + ", " + fish.getFishName() + ", " + imageData);

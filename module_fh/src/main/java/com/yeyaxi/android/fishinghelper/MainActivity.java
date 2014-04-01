@@ -1,10 +1,12 @@
 package com.yeyaxi.android.fishinghelper;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,7 +32,7 @@ public class MainActivity extends BaseActivity {
 
     public ActionBarDrawerToggle mDrawerToggle;
 
-    private boolean isMetricUnit = false;
+//    private boolean isMetricUnit = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,29 @@ public class MainActivity extends BaseActivity {
 //        }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences pref = getSharedPreferences("options", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
 
+        editor.putBoolean("metric", BaseActivity.isMetricUnit);
+
+        editor.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences pref = getSharedPreferences("options", MODE_PRIVATE);
+        Log.d(TAG, "" + pref.getAll());
+        BaseActivity.isMetricUnit = pref.getBoolean("metric", true);
+        if (BaseActivity.isMetricUnit == true) {
+            radioMetric.setChecked(true);
+        } else {
+            radioImperial.setChecked(true);
+        }
+    }
 
 
     RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
